@@ -68,6 +68,7 @@ $route['admin/' . $controller . '/delete/(:num)'] = 'admin/' . plural($controlle
 $route['admin/' . $controller . '/getjson'] = 'admin/' . plural($controller) . "/getJsonData";
 $route['admin/' . $controller . '/getjson/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1";
 $route['admin/' . $controller . '/getjson/(:any)/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1/$2";
+$route['admin/' . $controller . '/getjson/(:any)/(:any)/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1/$2/$3";
 
 $route['admin/get_sub_cat_bussiness/(:num)'] = 'admin/ajax/getAllBussinessSubCategoryFromBussinessCategory/$1';
 

@@ -14,6 +14,15 @@ class companies extends CI_Controller
     
     function viewCompany() {
         $data['page_h1_title'] = 'List companies';
+
+        $data['company_types'] = $this->config->item('company_type_array');
+        
+        $obj_cat = new Businesscategory();
+        $data['categories'] = $obj_cat->get();
+
+        $obj_cat = new Businesssubcategory();
+        $data['sub_categories'] = $obj_cat->get();
+        
         $this->layout->view('admin/companies/view', $data);
     }
 
@@ -84,26 +93,57 @@ class companies extends CI_Controller
             redirect(ADMIN_URL . 'company', 'refresh');
         }
     }
+
+    function deleteCompany($id) {
+        if (!empty($id)) {
+            $obj_company = new Company();
+            $obj_company->where('id', $id)->get();
+            if ($obj_company->result_count() == 1) {
+                $obj_company->delete();
+                $data = array('status' => 'success', 'msg' => 'Company details deleted successfully');
+            } else {
+                $data = array('status' => 'error', 'msg' => 'Error deleting company details');
+            }
+        } else {
+            $data = array('status' => 'error', 'msg' => 'Error deleting company details');
+        }
+        echo json_encode($data);
+    }
     
-    public function getJsonData() {
+    public function getJsonData($type = 0, $cat_id = 0, $sub_cat = 0) {
+        $where = '';
+
+
+        if($type != 0){
+            $where .= ' AND type = ' . $type;
+        }
+
+        if($cat_id != 0){
+            $where .= ' AND companies.businesscategory_id = ' . $cat_id;
+        }
+
+        if($sub_cat != 0){
+            $where .= ' AND companies.businesssubcategory_id = ' . $sub_cat;
+        }
+
         $this->load->library('datatable');
         $this->datatable->aColumns = array('type', 'company_name', 'businesscategories.name AS cat_name', 'businesssubcategories.name AS sub_cat');
         $this->datatable->eColumns = array('companies.id');
         $this->datatable->sIndexColumn = "companies.id";
         $this->datatable->sTable = " companies, businesscategories, businesssubcategories";
-        $this->datatable->myWhere = " WHERE companies.businesscategory_id=businesscategories.id AND companies.businesssubcategory_id=businesssubcategories.id";
+        $this->datatable->myWhere = " WHERE companies.businesscategory_id=businesscategories.id AND companies.businesssubcategory_id=businesssubcategories.id" . $where;
         $this->datatable->datatable_process();
         
+        $company_types = $this->config->item('company_type_array');
+
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
             $temp_arr[] = $aRow['company_name'];
             
-            $company_types = $this->config->item('company_type_array');
-
             $temp_arr[] = $company_types[$aRow['type']];
             $temp_arr[] = $aRow['cat_name'];
             $temp_arr[] = $aRow['sub_cat'];
-            $temp_arr[] = '<a href="' . ADMIN_URL . 'company/edit/' . $aRow['id'] . '" class="actions" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fa fa-pencil icon-circle icon-xs icon-primary"></i></a>';
+            $temp_arr[] = '<a href="' . ADMIN_URL . 'company/edit/' . $aRow['id'] . '" class="actions" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fa fa-pencil icon-circle icon-xs icon-primary"></i></a>&nbsp;<a href="javascript:;" onclick="deletedata(this)" class="text-danger" id="'. $aRow['id'] .'" data-toggle="tooltip" data-original-title="Delete" title="Delete"><i class="fa fa-times icon-circle icon-xs icon-danger"></i></a>';
             
             $this->datatable->output['aaData'][] = $temp_arr;
         }

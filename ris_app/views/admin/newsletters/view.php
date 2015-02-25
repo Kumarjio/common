@@ -17,11 +17,10 @@
             echo $lengths[0]; ?>,
             "bServerSide" : true,
             "aoColumns": [
-                {"sClass": ""},{"sClass": ""},
-                {"sClass": ""},{"sClass": ""},
+                {"sClass": ""},{"sClass": ""},{"sClass": ""},{"sClass": ""},{"sClass": ""},
                 {"bSortable": false, "sClass": "text-center"}
             ],
-            "sAjaxSource": "<?php echo ADMIN_URL . 'company/getjson/'; ?>" + jQuery('#site_type').val() + '/' + jQuery('#categories').val() + '/' + jQuery('#sub_categories').val(),
+            "sAjaxSource": "<?php echo ADMIN_URL . 'newsletter/getjson/'; ?>" + jQuery('#site_type').val() + '/' + jQuery('#categories').val() + '/' + jQuery('#sub_categories').val(),
         });
     }
 
@@ -32,8 +31,8 @@
 
         swal(
             {
-                title: "Manage Comapny",
-                text: "Do you Want to Delete the Comapny ?",
+                title: "Manage Campaign",
+                text: "Do you Want to Delete the Campaign and related ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -46,7 +45,7 @@
                 if (isConfirm) {
                     $.ajax({
                         type: 'POST',
-                        url: http_host_js + 'company/delete/' + current_id,
+                        url: http_host_js + 'newsletter/delete/' + current_id,
                         data: id = current_id,
                         dataType : 'JSON',
                         success: function(data) {
@@ -68,7 +67,7 @@
 
 <div class="row">
     <div class="col-md-12 text-right">
-        <a href="<?php echo ADMIN_URL . 'company/add'; ?>" class="btn btn-success"> Add New Comapny</a>
+        <a href="<?php echo ADMIN_URL . 'newsletter/add'; ?>" class="btn btn-success"> Add New Campaign</a>
     </div>
 </div>
 <br />
@@ -103,8 +102,9 @@
     <table class="table table-bordered table-hover" id="list_data">
         <thead>
             <tr align="left">
-                <th>Company Name</th>
-                <th width="200">Type</th>
+                <th width="100">Date</th>
+                <th>Template Subject</th>
+                <th width="75">Type</th>
                 <th width="100">Category</th>
                 <th width="150">Sub Category</th>
                 <th width="100">Actions</th>
@@ -112,7 +112,7 @@
         </thead>
         <tbody>
             <tr>
-                 <td colspan="5"><i>Loading...</i></td>
+                 <td colspan="6"><i>Loading...</i></td>
             </tr>
         </tbody>
     </table>

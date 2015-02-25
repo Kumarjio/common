@@ -27,8 +27,6 @@ class Authentication extends CI_Controller {
                 $this->session->set_flashdata('error', 'Please do login first');
                 redirect(ADMIN_URL . 'login', 'refresh');
             }
-        } else if ($path_admin != 'admin') {
-            exit;
         }
     }
 

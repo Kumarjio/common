@@ -23,47 +23,40 @@ if (!defined('BASEPATH'))
 $http = 'http://';
 $config['base_url'] = $http .'localhost/common/';
 
-
-
+if (!defined('ASSETS_URL')) {
+    define('ASSETS_URL', $config['base_url'] . 'assets/');
+}
 
 if (!defined('ADMIN_URL')) {
     define('ADMIN_URL', $config['base_url'] . 'admin/');
 }
 
 if (!defined('ADMIN_CSS_URL')) {
-    define('ADMIN_CSS_URL', $config['base_url'] . 'assets/admin_assets/css/');
+    define('ADMIN_CSS_URL', ASSETS_URL . 'admin_assets/css/');
 }
 
 if (!defined('ADMIN_JS_URL')) {
-    define('ADMIN_JS_URL', $config['base_url'] . 'assets/admin_assets/js/');
+    define('ADMIN_JS_URL', ASSETS_URL . 'admin_assets/js/');
 }
 
 if (!defined('ADMIN_IMG_URL')) {
-    define('ADMIN_IMG_URL', $config['base_url'] . 'assets/admin_assets/img/');
-}
-
-if (!defined('ADMIN_PLUGIN_URL')) {
-    define('ADMIN_PLUGIN_URL', $config['base_url'] . 'assets/plugins/');
+    define('ADMIN_IMG_URL', ASSETS_URL . 'admin_assets/img/');
 }
 
 if (!defined('PLUGIN_URL')) {
-    define('PLUGIN_URL', $config['base_url'] . 'assets/plugins/');
+    define('PLUGIN_URL', ASSETS_URL . 'plugins/');
 }
 
 if (!defined('CSS_URL')) {
-    define('CSS_URL', $config['base_url'] . 'assets/css/');
+    define('CSS_URL', ASSETS_URL . 'css/');
 }
 
 if (!defined('JS_URL')) {
-    define('JS_URL', $config['base_url'] . 'assets/js/');
+    define('JS_URL', ASSETS_URL . 'js/');
 }
 
 if (!defined('IMG_URL')) {
-    define('IMG_URL', $config['base_url'] . 'assets/img/');
-}
-
-if (!defined('ASSETS_URL')) {
-    define('ASSETS_URL', $config['base_url'] . 'assets/');
+    define('IMG_URL', ASSETS_URL . 'img/');
 }
 
 $config['company_type_array'] = array(

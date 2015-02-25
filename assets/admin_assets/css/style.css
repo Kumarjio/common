@@ -2607,6 +2607,8 @@ Component: timeline
 .skin-blue .sidebar > .sidebar-menu > li.active > a {
   color: #222;
   background: #f9f9f9;
+  font-style: italic;
+  font-weight: bold;
 }
 .skin-blue .sidebar > .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;

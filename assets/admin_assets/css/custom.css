@@ -163,6 +163,26 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     background: #28b2d6;
     color: #fff;
 }
+
+.icon-success {
+    background: #5cb85c;
+    color: #fff;
+}
+
+.icon-danger {
+    background: #d9534f;
+    color: #fff;
+}
+
+.icon-warning {
+    background: #f0ad4e;
+    color: #fff;
+}
+
+.icon-info {
+    background: #5bc0de;
+    color: #fff;
+}
 .icon-xs {
     width: 30px;
     height: 30px;

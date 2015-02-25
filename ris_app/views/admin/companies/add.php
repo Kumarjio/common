@@ -37,7 +37,7 @@
                     <?php foreach ($company_types as $key => $value) { ?>
                         <div class="radio">
                             <label for="radios-<?php echo $key; ?>">
-                                <input name="type" id="radios-<?php echo $key; ?>" value="<?php echo $key; ?>" type="radio" class="required"><?php echo $value; ?>
+                                <input name="type" id="radios-<?php echo $key; ?>" value="<?php echo $key; ?>" type="radio" class="required">&nbsp;<?php echo $value; ?>
                             </label>
                         </div>
                     <?php } ?>
