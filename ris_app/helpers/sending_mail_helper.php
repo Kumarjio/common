@@ -18,7 +18,7 @@ if (!function_exists('send_mail')) {
 
         $ci->load->library('email', $config);
         $ci->email->set_newline("\r\n");
-        $ci->email->from($ci->config->item('smtp_user'), 'MyLudosport');
+        $ci->email->from($ci->config->item('smtp_user'), $ci->config->item('app_name'));
         $ci->email->to($options['tomailid']);
         $ci->email->subject($options['subject']);
         $ci->email->message($options['message']);
@@ -32,11 +32,12 @@ if (!function_exists('send_mail')) {
         $check = $ci->email->send();
 
         if (!$check) {
-            $header = "From: MyLudosport <". $ci->config->item('smtp_user')."> \r\n";
+            /*$header = "From: ". $ci->config->item('app_name') ." <". $ci->config->item('smtp_user')."> \r\n";
             $header .= "MIME-Version: 1.0\r\n";
             $header .= "Content-type: text/html\r\n";
             $return  = mail($options['tomailid'],$options['subject'],$options['message'],$header);
-            return $return;
+            return $return; */
+            echo  $ci->email->print_debugger();
         } else {
             return TRUE;
         }

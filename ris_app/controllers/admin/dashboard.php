@@ -24,9 +24,10 @@ class dashboard extends CI_Controller
     }
 
     public function mail_testing($email){
-        $option['tomailid'] = $email;
-        $option['subject'] = 'Hi';
-        $option['message'] = 'This is an test mail, for testing an SMTP server';
-        send_mail($option);
+        //$option['tomailid'] = $email;
+        //$option['subject'] = 'Testing';
+        //$option['message'] = $this->load->view('admin/template/layout_news_letter', NULL, true);
+        //send_mail($option);
+        $this->load->view('admin/template/layout_news_letter');
     }
 }
