@@ -118,6 +118,20 @@
                             </ul>
                         </li>
 
+                        <li class="treeview <?php echo ($uri_2 == 'businesscategory' || $uri_2 == 'businesssubcategory') ? 'active' : ''; ?>">
+                            <a href="#">
+                                <i class="fa fa-gears"></i> <span>Tranning Center</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                 <li class="<?php echo ($uri_2 == 'batch') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'batch'; ?>"><i class="fa fa-cog"></i>Batch</a></li>
+
+                                <li class="<?php echo ($uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student'; ?>"><i class="fa fa-cog"></i>Student</a></li>
+
+                                <li class="<?php echo ($uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student/fee'; ?>"><i class="fa fa-cog"></i>Student Fee</a></li>
+                            </ul>
+                        </li>
+
                     
                         <li class="treeview <?php echo ($uri_2 == 'page' || $uri_2 == 'email' || $uri_2 == 'newslettertemplate') ? 'active' : ''; ?>">
                             <a href="#">
