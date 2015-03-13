@@ -106,6 +106,8 @@
 
                         <li class="<?php echo ($uri_2 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
 
+                        <li class="<?php echo ($uri_2 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
+
                         <li class="treeview <?php echo ($uri_2 == 'businesscategory' || $uri_2 == 'businesssubcategory') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Business</span>

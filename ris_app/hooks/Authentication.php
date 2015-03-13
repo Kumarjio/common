@@ -14,7 +14,7 @@ class Authentication extends CI_Controller {
     }
 
     function checkLogin() {
-        $array = array('authenticate');
+        $array = array('authenticate', 'cronjobs');
         $path = explode('/', $_SERVER['REQUEST_URI']);
         if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.168.1.29') {
             $path_admin = $path[2];

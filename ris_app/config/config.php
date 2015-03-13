@@ -21,7 +21,13 @@ if (!defined('BASEPATH'))
 
 
 $http = 'http://';
-$config['base_url'] = $http .'localhost/common/';
+
+if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.168.1.29') {
+  $config['base_url'] = $http .'localhost/common/';
+} else {
+  $config['base_url'] = $http .'labs.rootitsolutions.com/ris/';
+}
+
 
 if (!defined('ASSETS_URL')) {
     define('ASSETS_URL', $config['base_url'] . 'assets/');
@@ -64,6 +70,10 @@ $config['company_type_array'] = array(
   '2' => 'URL BUT NO SITE',
   '3' => 'Site Exit But Rework',
   '4' => 'Perfect Site'
+);
+
+$config['scrap_sites'] = array(
+  '1' => 'Just Dial'
 );
 
 /*

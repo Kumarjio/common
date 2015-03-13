@@ -1,9 +1,9 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-light-blue">
             <div class="inner">
-                <h3><?php echo @$total_users; ?></h3>
-                <p>Users</p>
+                <h3><?php echo @$total_bussiness_categories; ?></h3>
+                <p>Bussiness Caegories</p>
             </div>
             <div class="icon"><i class="ion ion-android-friends"></i></div>
             <span class="small-box-footer">&nbsp;</span>
@@ -12,8 +12,8 @@
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-green">
             <div class="inner">
-                <h3><?php echo @$total_today_users; ?></h3>
-                <p>Today register users</p>
+                <h3><?php echo @$total_bussiness_sub_categories; ?></h3>
+                <p>Bussiness Sub Caegories</p>
             </div>
             <div class="icon"><i class="ion ion-android-contacts"></i></div>
             <span class="small-box-footer">&nbsp;</span>
@@ -22,8 +22,8 @@
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-red">
             <div class="inner">
-                <h3><?php echo @$total_invitations; ?></h3>
-                <p>Invitations</p>
+                <h3><?php echo @$total_compaines; ?></h3>
+                <p>Companies</p>
             </div>
             <div class="icon"><i class="ion ion-stats-bars"></i></div>
             <span class="small-box-footer">&nbsp;</span>
@@ -32,8 +32,8 @@
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-yellow">
             <div class="inner">
-                <h3><?php echo @$total_wishes; ?></h3>
-                <p>Wishes</p>
+                <h3><?php echo @$total_urls; ?></h3>
+                <p>Scrap Urls</p>
             </div>
             <div class="icon"><i class="ion ion-clipboard"></i></div>
             <span class="small-box-footer">&nbsp;</span>
@@ -41,6 +41,7 @@
     </div>
 </div>
 
+<!--
 <div class="row">
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-aqua">

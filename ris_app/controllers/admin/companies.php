@@ -127,7 +127,7 @@ class companies extends CI_Controller
         }
 
         $this->load->library('datatable');
-        $this->datatable->aColumns = array('type', 'company_name', 'businesscategories.name AS cat_name', 'businesssubcategories.name AS sub_cat');
+        $this->datatable->aColumns = array('company_name', 'type', 'businesscategories.name AS cat_name', 'businesssubcategories.name AS sub_cat');
         $this->datatable->eColumns = array('companies.id');
         $this->datatable->sIndexColumn = "companies.id";
         $this->datatable->sTable = " companies, businesscategories, businesssubcategories";
