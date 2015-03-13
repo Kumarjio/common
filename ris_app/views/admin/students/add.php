@@ -12,9 +12,13 @@
             }
         });
 
-        $('.date-picker').datepicker({
-            autoclose: true,
-            endDate: '+0d'
+        jQuery('select[name="batch_id"').on("change",function(){
+            jQuery.ajax({
+                url: '<?php echo ADMIN_URL ."get_batch_fee/" ?>' + jQuery(this).val(),
+                success: function(data) {
+                    $('input[name="fee"]').val(data);
+                }
+            }); 
         });
 
     });
@@ -23,48 +27,45 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <form id="edit" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'batch/add'; ?>">
+        <form id="edit" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'student/add'; ?>">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Batch <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select name="batch_id" class="form-control">
+                        <option value="">Select Batch</option>
+                        option
+                        <?php foreach ($batches as $batch) { ?>
+                            <option value="<?php echo $batch->id; ?>"><?php echo $batch->name; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-lg-2 control-label">Name <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control required" name="name" placeholder="Batch Name"/>
+                    <input type="text" class="form-control required" name="name" placeholder="Name"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Fee <span class="text-danger">*</span></label>
+                <label class="col-lg-2 control-label">college <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control required" name="fee" placeholder="Batch Name"/>
+                    <input type="text" class="form-control required" name="college" placeholder="College"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Start Date <span class="text-danger">*</span></label>
+                <label class="col-lg-2 control-label">project <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control date-picker required" name="st_date" placeholder="Start Date"/>
+                    <input type="text" class="form-control required" name="project" placeholder="Project Title"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">End Date <span class="text-danger">&nbsp;</span></label>
+                <label class="col-lg-2 control-label">fee <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control date-picker " name="ed_date" placeholder="End Date"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label" for="radios">Status <span class="text-danger">*</span></label>
-                <div class="col-lg-9">
-                    <div class="radio">
-                        <label for="radios-0">
-                            <input name="status" id="radios-0" value="active" type="radio" checked> Active
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label for="radios-1">
-                            <input name="status" id="radios-1" value="inactive" type="radio"> Inactive
-                        </label>
-                    </div>
+                    <input type="text" class="form-control required" name="fee" placeholder="Fee"/>
                 </div>
             </div>
 

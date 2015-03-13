@@ -23,12 +23,19 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <form id="edit" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'batch/edit/' . @$batch->id; ?>" enctype="multipart/form-data">
+        <form id="edit" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'batch/edit/' . @$batch->id; ?>">
 
             <div class="form-group">
                 <label class="col-lg-2 control-label">Name <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control required" name="title" value="<?php echo $batch->name ?>"/>
+                    <input type="text" class="form-control required" name="name" value="<?php echo $batch->name ?>"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Fee <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control required" name="fee" value="<?php echo $batch->fee; ?>"/>
                 </div>
             </div>
 

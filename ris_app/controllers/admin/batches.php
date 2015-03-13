@@ -24,6 +24,8 @@ class batches extends CI_Controller
             $batch->st_date = date('Y-m-d', strtotime($this->input->post('st_date')));
             if($this->input->post('ed_date') != ''){
                 $batch->ed_date = date('Y-m-d', strtotime($this->input->post('ed_date')));    
+            } else {
+                $batch->ed_date = null;
             }
             $batch->fee = $this->input->post('fee');
             $batch->status = $this->input->post('status');
@@ -46,6 +48,8 @@ class batches extends CI_Controller
                 $batch->st_date = date('Y-m-d', strtotime($this->input->post('st_date')));
                 if($this->input->post('ed_date') != ''){
                     $batch->ed_date = date('Y-m-d', strtotime($this->input->post('ed_date')));    
+                } else {
+                    $batch->ed_date = null;
                 }
                 $batch->fee = $this->input->post('fee');
                 $batch->status = $this->input->post('status');
@@ -82,7 +86,7 @@ class batches extends CI_Controller
 
     public function getJsonData() {
         $this->load->library('datatable');
-        $this->datatable->aColumns = array('name', 'st_date', 'ed_date', 'status');
+        $this->datatable->aColumns = array('name', 'fee', 'st_date', 'ed_date', 'status');
         $this->datatable->eColumns = array('id');
         $this->datatable->sIndexColumn = "id";
         $this->datatable->sTable = " batches";
@@ -91,6 +95,7 @@ class batches extends CI_Controller
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
             $temp_arr[] = $aRow['name'];
+            $temp_arr[] = $aRow['fee'];
             $temp_arr[] = date('d-m-Y', strtotime($aRow['st_date']));
             if($aRow['ed_date'] != '' && $aRow['ed_date'] != '0000-00-00'){
                 $temp_arr[] = date('d-m-Y', strtotime($aRow['ed_date']));

@@ -71,6 +71,7 @@ $route['admin/' . $controller . '/getjson/(:any)/(:any)'] = 'admin/' . plural($c
 $route['admin/' . $controller . '/getjson/(:any)/(:any)/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1/$2/$3";
 
 $route['admin/get_sub_cat_bussiness/(:num)'] = 'admin/ajax/getAllBussinessSubCategoryFromBussinessCategory/$1';
+$route['admin/get_batch_fee/(:num)'] = 'admin/ajax/getBatchFee/$1';
 
 //Default
 $route['default_controller'] = "welcome/index";
@@ -92,6 +93,16 @@ $route['admin/reset_password/(:any)'] = "admin/authenticate/userResetPassword/$1
 
 //System Setting
 $route['admin/system_setting/(:any)'] = "admin/systemsettings/viewSystemSetting/$1";
+
+//Student Fees
+
+
+//Cron Jobs
+$route['cron/test'] = "admin/cronjobs/test";
+$route['cron/get_url'] = "admin/cronjobs/getUrls";
+$route['cron/get_url/(:num)'] = "admin/cronjobs/getUrls/$1";
+$route['cron/get_url_data'] = "admin/cronjobs/getUrlData";
+$route['cron/get_url_data/(:num)'] = "admin/cronjobs/getUrlData/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

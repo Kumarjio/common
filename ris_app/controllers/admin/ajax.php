@@ -20,4 +20,10 @@ class ajax extends CI_Controller
             echo '<option value="' . $subcategory->id . '">' . $subcategory->name . '</option>';
         }
     }
+
+    function getBatchFee($id){
+        $batch = New Batch();
+        $batch->where('id', $id)->get();
+        echo $batch->fee;
+    }
 }

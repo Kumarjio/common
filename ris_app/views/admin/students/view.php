@@ -14,9 +14,9 @@
             "bServerSide" : true,
             "aoColumns": [
                 {"sClass": ""},{"sClass": ""},{"sClass": ""},{"sClass": ""},
-                {"sClass": ""},{"bSortable": false, "sClass": "text-center"}
+                {"bSortable": false, "sClass": "text-center"}
             ],
-            "sAjaxSource": "<?php echo ADMIN_URL . 'batch/getjson'; ?>",
+            "sAjaxSource": "<?php echo ADMIN_URL . 'student/getjson'; ?>",
         });
     }
 
@@ -41,7 +41,7 @@
                 if (isConfirm) {
                     $.ajax({
                         type: 'POST',
-                        url: http_host_js + 'batch/delete/' + current_id,
+                        url: http_host_js + 'student/delete/' + current_id,
                         data: id = current_id,
                         dataType : 'JSON',
                         success: function(data) {
@@ -62,7 +62,7 @@
 
 <div class="row">
     <div class="col-md-12 text-right">
-        <a href="<?php echo ADMIN_URL . 'batch/add'; ?>" class="btn btn-success"> Add New Batch</a>
+        <a href="<?php echo ADMIN_URL . 'student/add'; ?>" class="btn btn-success"> Add New Student</a>
     </div>
 </div>
 <br />
@@ -71,10 +71,9 @@
         <thead>
             <tr align="left">
                 <th>Name</th>
-                <th>Fee</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
+                <th>Batch</th>
+                <th>College</th>
+                <th>Project</th>
                 <th width="150">Actions</th>
             </tr>
         </thead>

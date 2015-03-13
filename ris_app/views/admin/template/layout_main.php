@@ -10,7 +10,7 @@
         <link href="<?php echo PLUGIN_URL; ?>sweet-alert/sweet-alert.css" rel="stylesheet">
         <link href="<?php echo PLUGIN_URL; ?>datatables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="<?php echo PLUGIN_URL; ?>datepicker/datepicker.min.css" rel="stylesheet">
-
+        <link href="<?php echo PLUGIN_URL; ?>chosen/chosen.min.css" rel="stylesheet">
         <link href="<?php echo ADMIN_CSS_URL; ?>bootstrap.min.css" rel="stylesheet" />
         <link href="<?php echo ADMIN_CSS_URL; ?>ionicons.min.css" rel="stylesheet" />
         <link href="<?php echo ADMIN_CSS_URL; ?>style.css" rel="stylesheet" type="text/css" />
@@ -231,7 +231,7 @@
         <script src="<?php echo PLUGIN_URL; ?>summernote/summernote.min.js"></script>
         <script src="<?php echo PLUGIN_URL; ?>sweet-alert/sweet-alert.js"></script>
         <script src="<?php echo PLUGIN_URL; ?>datepicker/bootstrap-datepicker.js"></script>
-        
+        <script src="<?php echo PLUGIN_URL; ?>chosen/chosen.jquery.min.js"></script>
         <script src="<?php echo ADMIN_JS_URL; ?>bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo ADMIN_JS_URL; ?>app.js" type="text/javascript"></script>
     </body>
