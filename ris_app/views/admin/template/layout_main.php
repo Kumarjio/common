@@ -34,7 +34,7 @@
         <script src="<?php echo ADMIN_JS_URL; ?>jquery-ui-1.10.3.min.js"></script>
         <script src="<?php echo ADMIN_JS_URL; ?>jquery.validate.js"></script>
         
-        <script src="<?php echo PLUGIN_URL; ?>datatables/jquery.dataTables.js"></script>
+        <script src="<?php echo PLUGIN_URL; ?>datatables/jquery.dataTables.min.js"></script>
         <script src="<?php echo PLUGIN_URL; ?>datatables/dataTables.bootstrap.js"></script>
 
         <link href="<?php echo PLUGIN_URL; ?>icheck/skins/all.css" rel="stylesheet">
@@ -96,56 +96,56 @@
                 <!-- sidebar: style can be found in sidebar.less -->
                 <?php
                 $uri_1 = ($this->uri->segment(2) ? $this->uri->segment(2) : 'dashboard');
-                $uri_2 = ($this->uri->segment(2) ? $this->uri->segment(3) ? $this->uri->segment(3) : $this->uri->segment(2) : 'dashboard');  
+                $uri_2 = ($this->uri->segment(2) ? $this->uri->segment(3) ? $this->uri->segment(3) : $this->uri->segment(2) : 'dashboard');
                 ?>
                 <section class="sidebar">
                     <ul class="sidebar-menu">
-                        <li class="<?php echo ($uri_2 == 'dashboard') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a> </li>
+                        <li class="<?php echo ($uri_1 == 'dashboard') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a> </li>
 
-                        <li class="<?php echo ($uri_2 == 'company') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'company'; ?>"><i class="fa fa-users"></i>Company</a></li>
+                        <li class="<?php echo ($uri_1 == 'company') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'company'; ?>"><i class="fa fa-users"></i>Company</a></li>
 
-                        <li class="<?php echo ($uri_2 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
+                        <li class="<?php echo ($uri_1 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
 
-                        <li class="<?php echo ($uri_2 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
+                        <li class="<?php echo ($uri_1 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
 
-                        <li class="treeview <?php echo ($uri_2 == 'businesscategory' || $uri_2 == 'businesssubcategory') ? 'active' : ''; ?>">
+                        <li class="treeview <?php echo ($uri_1 == 'businesscategory' || $uri_1 == 'businesssubcategory') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Business</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                 <li class="<?php echo ($uri_2 == 'businesscategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesscategory'; ?>"><i class="fa fa-cog"></i>Category</a></li>
+                                 <li class="<?php echo ($uri_1 == 'businesscategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesscategory'; ?>"><i class="fa fa-cog"></i>Category</a></li>
 
-                                <li class="<?php echo ($uri_2 == 'businesssubcategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesssubcategory'; ?>"><i class="fa fa-cog"></i>Sub Category</a></li>
+                                <li class="<?php echo ($uri_1 == 'businesssubcategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesssubcategory'; ?>"><i class="fa fa-cog"></i>Sub Category</a></li>
                             </ul>
                         </li>
 
-                        <li class="treeview <?php echo ($uri_2 == 'businesscategory' || $uri_2 == 'businesssubcategory') ? 'active' : ''; ?>">
+                        <li class="treeview <?php echo ($uri_1 == 'batch' || $uri_1 == 'student') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Tranning Center</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                 <li class="<?php echo ($uri_2 == 'batch') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'batch'; ?>"><i class="fa fa-cog"></i>Batch</a></li>
+                                 <li class="<?php echo ($uri_1 == 'batch') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'batch'; ?>"><i class="fa fa-cog"></i>Batch</a></li>
 
-                                <li class="<?php echo ($uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student'; ?>"><i class="fa fa-cog"></i>Student</a></li>
+                                <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student'; ?>"><i class="fa fa-cog"></i>Student</a></li>
 
-                                <li class="<?php echo ($uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student/fee'; ?>"><i class="fa fa-cog"></i>Student Fee</a></li>
+                                <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'fee') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student/fee'; ?>"><i class="fa fa-cog"></i>Student Fee</a></li>
                             </ul>
                         </li>
 
                     
-                        <li class="treeview <?php echo ($uri_2 == 'page' || $uri_2 == 'email' || $uri_2 == 'newslettertemplate') ? 'active' : ''; ?>">
+                        <li class="treeview <?php echo ($uri_1 == 'page' || $uri_1 == 'email' || $uri_1 == 'newslettertemplate') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Templates</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="<?php echo ($uri_2 == 'page') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'page'; ?>"><i class="fa fa-file-text"></i>Page</a></li>
+                                <li class="<?php echo ($uri_1 == 'page') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'page'; ?>"><i class="fa fa-file-text"></i>Page</a></li>
 
-                                <li class="<?php echo ($uri_2 == 'email') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'email'; ?>"><i class="fa fa-envelope"></i>Email</a></li>
+                                <li class="<?php echo ($uri_1 == 'email') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'email'; ?>"><i class="fa fa-envelope"></i>Email</a></li>
 
-                                <li class="<?php echo ($uri_2 == 'newslettertemplate') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newslettertemplate'; ?>"><i class="fa fa-envelope"></i>Newsletter</a></li>
+                                <li class="<?php echo ($uri_1 == 'newslettertemplate') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newslettertemplate'; ?>"><i class="fa fa-envelope"></i>Newsletter</a></li>
                             </ul>
                         </li>
 

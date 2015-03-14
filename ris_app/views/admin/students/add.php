@@ -73,7 +73,7 @@
                 <label class="col-lg-2 control-label">&nbsp;</label>
                 <div class="col-lg-9">
                     <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="Save">Save</button>
-                    <a href="<?php echo ADMIN_URL . 'batch' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
+                    <a href="<?php echo ADMIN_URL . 'student' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
                 </div>
             </div>
 

@@ -1,31 +1,6 @@
 <script type="text/javascript" >
     jQuery(document).ready(function() {
         loadDatatable();
-
-        $('#mainpanel').delegate('.detailReport', 'click', function(e){
-            e.preventDefault();
-            $this = $(this);
-            table = jQuery('#list_data').DataTable();
-            jQuery.ajax({
-                url: $this.attr('data-url'),
-                success: function(data) {
-                    var tr = $this.closest('tr');
-                    var row = table.row(tr);
-                    if (row.child.isShown()) {
-                        $this.find('i').removeClass('fa-minus-circle');
-                        $this.find('i').addClass('fa-plus-circle');
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    } else {
-                        $this.find('i').addClass('fa-minus-circle');
-                        $this.find('i').removeClass('fa-plus-circle');
-                        row.child(data).show();
-                        tr.addClass('shown');
-                    }
-                } 
-            });
-        });
-
     });
 
     function loadDatatable(){
@@ -38,10 +13,10 @@
             echo $lengths[0]; ?>,
             "bServerSide" : true,
             "aoColumns": [
-                {"sClass": ""},{"sClass": ""},{"sClass": ""},{"sClass": ""},
+                {"sClass": ""},{"sClass": ""},{"sClass": ""},
                 {"bSortable": false, "sClass": "text-center"}
             ],
-            "sAjaxSource": "<?php echo ADMIN_URL . 'student/getjson'; ?>",
+            "sAjaxSource": "<?php echo ADMIN_URL . 'student/getjsonfee'; ?>",
         });
     }
 
@@ -66,7 +41,7 @@
                 if (isConfirm) {
                     $.ajax({
                         type: 'POST',
-                        url: http_host_js + 'student/delete/' + current_id,
+                        url: http_host_js + 'student/fee/delete/' + current_id,
                         data: id = current_id,
                         dataType : 'JSON',
                         success: function(data) {
@@ -87,24 +62,23 @@
 
 <div class="row">
     <div class="col-md-12 text-right">
-        <a href="<?php echo ADMIN_URL . 'student/add'; ?>" class="btn btn-success"> Add New Student</a>
+        <a href="<?php echo ADMIN_URL . 'student/fee/add'; ?>" class="btn btn-success"> Add Student Fee</a>
     </div>
 </div>
 <br />
-<div id="mainpanel" class="box-body table-responsive">
+<div class="box-body table-responsive">
     <table class="table table-bordered table-hover" id="list_data">
         <thead>
             <tr align="left">
                 <th>Name</th>
-                <th>Batch</th>
-                <th>College</th>
-                <th>Project</th>
+                <th>Fee</th>
+                <th>Date</th>
                 <th width="150">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                 <td colspan="5"><i>Loading...</i></td>
+                 <td colspan="4"><i>Loading...</i></td>
             </tr>
         </tbody>
     </table>

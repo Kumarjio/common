@@ -95,7 +95,12 @@ $route['admin/reset_password/(:any)'] = "admin/authenticate/userResetPassword/$1
 $route['admin/system_setting/(:any)'] = "admin/systemsettings/viewSystemSetting/$1";
 
 //Student Fees
-
+$route['admin/student/fee'] = "admin/students/viewStudentFees";
+$route['admin/student/getjsonfee'] = "admin/students/getFeeJsonData";
+$route['admin/student/fee/add'] = "admin/students/addStudentFee";
+$route['admin/student/fee/edit/(:num)'] = "admin/students/editStudentFee/$1";
+$route['admin/student/fee/delete/(:num)'] = "admin/students/deleteStudentFee/$1";
+$route['admin/student/get_fee_report/(:num)'] = "admin/students/getStudentFeeReport/$1";
 
 //Cron Jobs
 $route['cron/test'] = "admin/cronjobs/test";
