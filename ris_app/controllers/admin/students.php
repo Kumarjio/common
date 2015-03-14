@@ -8,7 +8,7 @@ class students extends CI_Controller
     
     function __construct() {
         parent::__construct();
-        $this->layout->setField('page_title', 'Student Templates');
+        $this->layout->setField('page_title', 'Student');
         $this->session_data = $this->session->userdata('admin_session');
     }
     

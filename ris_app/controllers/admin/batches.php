@@ -8,7 +8,7 @@ class batches extends CI_Controller
     
     function __construct() {
         parent::__construct();
-        $this->layout->setField('page_title', 'Batch Templates');
+        $this->layout->setField('page_title', 'Batch');
         $this->session_data = $this->session->userdata('admin_session');
     }
     
