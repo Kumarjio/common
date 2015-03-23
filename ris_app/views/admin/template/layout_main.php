@@ -108,6 +108,8 @@
 
                         <li class="<?php echo ($uri_1 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
 
+                        <li class="<?php echo ($uri_1 == 'balancesheet') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'balancesheet'; ?>"><i class="fa fa-money"></i>Expense</a></li>
+
                         <li class="treeview <?php echo ($uri_1 == 'businesscategory' || $uri_1 == 'businesssubcategory') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Business</span>
