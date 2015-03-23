@@ -6,17 +6,19 @@ class cronjobs extends CI_Controller {
     //php -f /home/rootigfk/public_html/labs/ris/index.php cron/test
     function __construct() {
         parent::__construct();
+        ini_set('max_execution_time', 3600);
     }
 
-    public function test(){
+    public function test($text){
     	$option['tomailid'] = 'ranasoyab@yopmail.com';
-	    $option['subject'] = 'Testing';
-	    $option['message'] = 'Hello';
+	    $option['subject'] = $text;
+	    $option['message'] = 'Hello ' . $text;
 	    send_mail($option);
     }
 
     /* ************** ONE TO MANY URLS  ************** */ 
 	    public function getUrls($limit = 5){
+	    	$this->test('URL');
 	    	$obj_scrap = new Scrap();
 	    	$obj_scrap->where('link_status', '0');
 	    	$obj_scrap->limit($limit);
@@ -48,12 +50,26 @@ class cronjobs extends CI_Controller {
 			    if(empty($outer_sections)) {
 			        break;
 			    } else {
-			        $links[] = $url;
+			    	$obj_new_scrap = array();
+					$obj_new_scrap['type'] = $scrap->type;
+					$obj_new_scrap['businesscategory_id'] = $scrap->businesscategory_id;
+		            $obj_new_scrap['businesssubcategory_id'] = $scrap->businesssubcategory_id;
+		            $obj_new_scrap['url'] = $url;
+		            $obj_new_scrap['link_status'] = '1';
+
+		            $this->db->select('*');
+			        $this->db->where(array('url' => $obj_new_scrap['url']));
+			        $this->db->from('scraps');
+					$count = $this->db->count_all_results();
+					if($count == 0) {
+						$this->db->insert('scraps', $obj_new_scrap); 
+					}
+			        //$links[] = $url;
 			        $i++;
 			    }
 			} while($exit == false);
 
-			foreach ($links as $link) {
+			/*foreach ($links as $link) {
 				$obj_new_scrap = array();
 				$obj_new_scrap['type'] = $scrap->type;
 				$obj_new_scrap['businesscategory_id'] = $scrap->businesscategory_id;
@@ -68,7 +84,7 @@ class cronjobs extends CI_Controller {
 				if($count == 0) {
 					$this->db->insert('scraps', $obj_new_scrap); 
 				}
-			}
+			}*/
 
 			$this->db->where('id', $scrap->id);
 			$this->db->update('scraps', array('link_status' => '1'));
@@ -79,6 +95,7 @@ class cronjobs extends CI_Controller {
 
     /* ************** Get Scrap Datas  ************** */ 
 	    public function getUrlData($limit = 1){
+	    	$this->test('URL Data');
 	    	$obj_scrap = new Scrap();
 	    	$obj_scrap->where('status', '0');
 	    	$obj_scrap->limit($limit);

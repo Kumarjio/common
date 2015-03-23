@@ -51,8 +51,8 @@ if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.16
   }
 } else {
   @$controller = null;
-  if(@$path[1] == 'admin'){
-    @$controller = $path[2];  
+  if(@$path[2] == 'admin'){
+    @$controller = $path[3];  
   }
 }
 
