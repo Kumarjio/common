@@ -30,6 +30,12 @@ class scraps extends CI_Controller {
             $obj_scrap->businesscategory_id = $this->input->post('businesscategory_id');
             $obj_scrap->businesssubcategory_id = $this->input->post('businesssubcategory_id');
             $obj_scrap->url = $this->input->post('url');
+            $link_status = $this->input->post('link_status');
+            if(!empty($link_status)){
+                $obj_scrap->link_status = '0';
+            } else {
+                $obj_scrap->link_status = '1';
+            }
             $obj_scrap->save();
             $this->session->set_flashdata('success', 'Data Added Successfully');
             redirect(ADMIN_URL . 'scrap', 'refresh');
@@ -75,7 +81,7 @@ class scraps extends CI_Controller {
 
         $this->load->library('datatable');
         $this->datatable->aColumns = array('businesscategories.name AS cat_name', 'businesssubcategories.name AS sub_cat', 'url');
-        $this->datatable->eColumns = array('scraps.id');
+        $this->datatable->eColumns = array('scraps.id', 'scraps.status');
         $this->datatable->sIndexColumn = "scraps.id";
         $this->datatable->sTable = " scraps, businesscategories, businesssubcategories";
         $this->datatable->myWhere = " WHERE scraps.businesscategory_id=businesscategories.id AND scraps.businesssubcategory_id=businesssubcategories.id" . $where;
@@ -85,7 +91,14 @@ class scraps extends CI_Controller {
             $temp_arr = array();
             $temp_arr[] = $aRow['cat_name'];
             $temp_arr[] = $aRow['sub_cat'];
-            $temp_arr[] = $aRow['url'];
+
+            if($aRow['status'] == 0){
+                $str = '<label class="label label-warning pull-right">Pending</label>';
+            } else {
+                $str = '<label class="label label-success pull-right">Done</label>';
+            }
+            $temp_arr[] = $aRow['url'] . $str;
+            
             $temp_arr[] = '<a href="javascript:;" onclick="deletedata(this)" class="text-danger" id="'. $aRow['id'] .'" data-toggle="tooltip" data-original-title="Delete" title="Delete"><i class="fa fa-times icon-circle icon-xs icon-danger"></i></a>';
             
             $this->datatable->output['aaData'][] = $temp_arr;

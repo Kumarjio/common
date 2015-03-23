@@ -128,7 +128,7 @@ class companies extends CI_Controller
 
         $this->load->library('datatable');
         $this->datatable->aColumns = array('company_name', 'type', 'businesscategories.name AS cat_name', 'businesssubcategories.name AS sub_cat');
-        $this->datatable->eColumns = array('companies.id');
+        $this->datatable->eColumns = array('companies.id', 'companies.url');
         $this->datatable->sIndexColumn = "companies.id";
         $this->datatable->sTable = " companies, businesscategories, businesssubcategories";
         $this->datatable->myWhere = " WHERE companies.businesscategory_id=businesscategories.id AND companies.businesssubcategory_id=businesssubcategories.id" . $where;
@@ -140,7 +140,17 @@ class companies extends CI_Controller
             $temp_arr = array();
             $temp_arr[] = $aRow['company_name'];
             
-            $temp_arr[] = $company_types[$aRow['type']];
+            if(!empty($aRow['url'])){
+                $urls = explode(',', $aRow['url']);
+                $str = '';
+                foreach ($urls as $value) {
+                    $str .= '<a href="'. prep_url($value) .'" class="pull-right mar-lt-10" title="View Website" target="_blakn" rel="nofollow"><i class="fa fa-eye"></i></a>&nbsp;';
+                }
+                $temp_arr[] = $company_types[$aRow['type']] . $str;
+            } else {
+                $temp_arr[] = $company_types[$aRow['type']];
+            }
+
             $temp_arr[] = $aRow['cat_name'];
             $temp_arr[] = $aRow['sub_cat'];
             $temp_arr[] = '<a href="' . ADMIN_URL . 'company/edit/' . $aRow['id'] . '" class="actions" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fa fa-pencil icon-circle icon-xs icon-primary"></i></a>&nbsp;<a href="javascript:;" onclick="deletedata(this)" class="text-danger" id="'. $aRow['id'] .'" data-toggle="tooltip" data-original-title="Delete" title="Delete"><i class="fa fa-times icon-circle icon-xs icon-danger"></i></a>';

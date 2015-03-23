@@ -70,8 +70,6 @@ $route['admin/' . $controller . '/getjson/(:any)'] = 'admin/' . plural($controll
 $route['admin/' . $controller . '/getjson/(:any)/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1/$2";
 $route['admin/' . $controller . '/getjson/(:any)/(:any)/(:any)'] = 'admin/' . plural($controller) . "/getJsonData/$1/$2/$3";
 
-$route['admin/get_sub_cat_bussiness/(:num)'] = 'admin/ajax/getAllBussinessSubCategoryFromBussinessCategory/$1';
-$route['admin/get_batch_fee/(:num)'] = 'admin/ajax/getBatchFee/$1';
 
 //Default
 $route['default_controller'] = "welcome/index";
@@ -91,6 +89,12 @@ $route['admin/forgot_password'] = "admin/authenticate/userForgotPassword";
 $route['admin/send_reset_password_link'] = "admin/authenticate/userSendResetPasswordLink";
 $route['admin/reset_password/(:any)'] = "admin/authenticate/userResetPassword/$1";
 
+//Dashboard
+$route['admin/get_dashboard_count'] = 'admin/ajax/getDashboardTotalCountData';
+
+//Bussiness Sub Categories
+$route['admin/get_sub_cat_bussiness/(:num)'] = 'admin/ajax/getAllBussinessSubCategoryFromBussinessCategory/$1';
+
 //System Setting
 $route['admin/system_setting/(:any)'] = "admin/systemsettings/viewSystemSetting/$1";
 
@@ -98,6 +102,7 @@ $route['admin/system_setting/(:any)'] = "admin/systemsettings/viewSystemSetting/
 $route['admin/student/fee'] = "admin/students/viewStudentFees";
 $route['admin/student/getjsonfee'] = "admin/students/getFeeJsonData";
 $route['admin/student/fee/add'] = "admin/students/addStudentFee";
+$route['admin/get_batch_fee/(:num)'] = 'admin/ajax/getBatchFee/$1';
 $route['admin/student/fee/edit/(:num)'] = "admin/students/editStudentFee/$1";
 $route['admin/student/fee/delete/(:num)'] = "admin/students/deleteStudentFee/$1";
 $route['admin/student/get_fee_report/(:num)'] = "admin/students/getStudentFeeReport/$1";

@@ -5,8 +5,16 @@
         jQuery("#add").validate({
             errorPlacement: function(error, element) {
                 if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
-                    jQuery('.radio-error').html(error);
-                    jQuery('.radio-error').show();
+                    if(element.attr('type') === 'radio') {
+                        jQuery('.radio-error').html(error);
+                        jQuery('.radio-error').show();    
+                    }
+
+                    if(element.attr('type') === 'checkbox') {
+                        jQuery('.checkbox-error').html(error);
+                        jQuery('.checkbox-error').show();    
+                    }
+                    
                 }
                 else {
                     error.insertAfter(element);
@@ -66,9 +74,16 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">URL <span class="text-danger">&nbsp;</span></label>
+                <label class="col-lg-2 control-label">URL <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" name="url" palceholder="Site URL"/>
+                    <input type="text" class="form-control required" name="url" palceholder="Site URL"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Check Pagination <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="checkbox" class="form-control" name="link_status" value="1" checked/>
                 </div>
             </div>
 

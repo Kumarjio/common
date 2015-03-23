@@ -26,4 +26,20 @@ class ajax extends CI_Controller
         $batch->where('id', $id)->get();
         echo $batch->fee;
     }
+
+    function getDashboardTotalCountData(){
+            $obj_cat = new Businesscategory();
+            $data['total_bussiness_categories'] = $obj_cat->count();
+
+            $obj_sub_cat = new Businesssubcategory();
+            $data['total_bussiness_sub_categories'] = $obj_sub_cat->count();
+
+            $obj_company = new Company();
+            $data['total_compaines'] = $obj_company->count();
+
+            $obj_scrap = new Scrap();
+            $data['total_urls'] = $obj_scrap->count();
+
+            echo json_encode(array('total_counts' => $data));
+    }
 }

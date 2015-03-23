@@ -36,32 +36,37 @@ class cronjobs extends CI_Controller {
 
 	    private function _scrapUrlsJustDial($scrap){
 	    	$main_link = $scrap->url;
-			$scraped_page = myCurl($main_link);
-			preg_match_all('#<div class="jpag" +.*?>(.+?)</div>#is', $scraped_page, $sections);
-			if(isset($sections[1][0])){
-				$html_1 = str_get_html($sections[1][0]);
-				foreach ($html_1->find('a') as $key => $value) {
-				    if(isset($value->attr['rel'])){
-				        continue;
-				    }
-				    $last_page = trim($value->plaintext);
-				}
+	    	$links = array();
+			$exit = false;
+			$i = 2;
 
-				for ($i=2; $i<=$last_page;$i++) {
-					$obj_new_scrap = array();
-					$obj_new_scrap['type'] = $scrap->type;
-					$obj_new_scrap['businesscategory_id'] = $scrap->businesscategory_id;
-		            $obj_new_scrap['businesssubcategory_id'] = $scrap->businesssubcategory_id;
-		            $obj_new_scrap['url'] = $main_link .'/page-' . $i;
-		            $obj_new_scrap['link_status'] = '1';
+	    	do{
+			    $url = $main_link .'/page-' . $i;
+			    $scraped_page = myCurl($url);
+			    preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page, $outer_sections);
+			    $outer_sections = array_filter($outer_sections);
+			    if(empty($outer_sections)) {
+			        break;
+			    } else {
+			        $links[] = $url;
+			        $i++;
+			    }
+			} while($exit == false);
 
-		            $this->db->select('*');
-			        $this->db->where(array('url' => $obj_new_scrap['url']));
-			        $this->db->from('scraps');
-					$count = $this->db->count_all_results();
-					if($count == 0) {
-						$this->db->insert('scraps', $obj_new_scrap); 
-					}
+			foreach ($links as $link) {
+				$obj_new_scrap = array();
+				$obj_new_scrap['type'] = $scrap->type;
+				$obj_new_scrap['businesscategory_id'] = $scrap->businesscategory_id;
+	            $obj_new_scrap['businesssubcategory_id'] = $scrap->businesssubcategory_id;
+	            $obj_new_scrap['url'] = $link;
+	            $obj_new_scrap['link_status'] = '1';
+
+	            $this->db->select('*');
+		        $this->db->where(array('url' => $obj_new_scrap['url']));
+		        $this->db->from('scraps');
+				$count = $this->db->count_all_results();
+				if($count == 0) {
+					$this->db->insert('scraps', $obj_new_scrap); 
 				}
 			}
 
@@ -139,7 +144,14 @@ class cronjobs extends CI_Controller {
 
 				$url = $html_2->find('aside .jwb');
 		        if(isset($url[0]) && !empty($url[0]->parent()->plaintext)){
-		        	$temp['url'] = trim($url[0]->parent()->plaintext);
+		        	$temp_urls = explode('|', trim($url[0]->parent()->plaintext));
+
+		        	$urls = array();
+		        	foreach ($temp_urls as $value) {
+	        			$urls[] = trim($value);
+		        	}
+		        	
+		        	$temp['url'] = implode(',',$urls);
 		        	$temp['type'] = 4;
 		        } else {
 		        	$temp['type'] = 1;
@@ -155,22 +167,20 @@ class cronjobs extends CI_Controller {
 		        }
 		        $temp['listedin'] = implode(',',array_values(array_unique(array_filter($also_listed))));
 
-		        /*$this->db->select('*');
+		        $this->db->select('*');
 		        $this->db->where(
 		        	array(
 		        		'businesscategory_id' => $temp['businesscategory_id'],
-		        		'businesssubcategory_id' => temp['businesssubcategory_id'],
-		        		'company_name' => $temp['company_name'],
-		        		'address' => $temp['address']
+		        		'businesssubcategory_id' => $temp['businesssubcategory_id'],
+		        		'company_name' => trim($temp['company_name'])
 		        	)
-		        );*/
+		        );
 
-		        //$this->db->from('companies');
-				//$count = $this->db->count_all_results();
-				//if($count == 0) {
+		        $this->db->from('companies');
+				$count = $this->db->count_all_results();
+				if($count == 0) {
 					$this->db->insert('companies', $temp);
-				//}
-		        
+				}     
 		    }
 	    }
     /* ************** Get Scrap Datas  ************** */ 
