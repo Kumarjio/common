@@ -39,7 +39,8 @@ class Authentication extends CI_Controller {
 
     private function setAllowedController() {
         $this->allowed_controller = array(
-            'authenticate'
+            'authenticate',
+            'cronjobs'
         );
     }
 
