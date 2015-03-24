@@ -1,7 +1,7 @@
 <script>
     //<![CDATA[
     jQuery(document).ready(function() {
-        jQuery("#edit").validate({
+        jQuery("#add").validate({
             errorPlacement: function(error, element) {
                 if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
                     error.appendTo(element.parent());
@@ -24,30 +24,41 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <form id="edit" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'student/fee/add'; ?>">
+        <form id="add" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'balancesheet/add'; ?>">
             <div class="form-group">
-                <label class="col-lg-2 control-label">Student <span class="text-danger">*</span></label>
+                <label class="col-lg-2 control-label">Type <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <select name="student_id" class="form-control">
-                        <option value="">Select Student</option>
-                        <?php foreach ($students as $student) { ?>
-                            <option value="<?php echo $student->id; ?>"><?php echo $student->name; ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">Fee <span class="text-danger">*</span></label>
-                <div class="col-lg-9">
-                    <input type="text" class="form-control required" name="fee" placeholder="Fee"/>
+                    <div class="radio-inline">
+                        <label for="radios-I">
+                            <input name="type" id="radios-I" value="I" type="radio" class="required" checked>&nbsp;Income
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label for="radios-O">
+                            <input name="type" id="radios-O" value="O" type="radio" class="required">&nbsp;Outgoing
+                        </label>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-lg-2 control-label">Date <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control date-picker required" name="given_date" placeholder="Date" value="<?php echo date('d-m-Y'); ?>"/>
+                    <input type="text" class="form-control date-picker required" name="expense_date" placeholder="Date" value="<?php echo date('d-m-Y'); ?>"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Amount <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control required" name="amount" placeholder="Amount" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Note <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <textarea class="form-control required" name="description" rows="5"></textarea>
                 </div>
             </div>
 
@@ -55,7 +66,7 @@
                 <label class="col-lg-2 control-label">&nbsp;</label>
                 <div class="col-lg-9">
                     <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="Save">Save</button>
-                    <a href="<?php echo ADMIN_URL . 'student/fee' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
+                    <a href="<?php echo ADMIN_URL . 'balancesheet' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
                 </div>
             </div>
 
