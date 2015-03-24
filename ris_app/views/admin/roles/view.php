@@ -15,20 +15,24 @@
 
 </script>
 
-<div class="the-box">
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover" id="list_data">
-            <thead class="the-box dark full">
-                <tr align="left">
-                    <th>Role Name</th>
-                    <th width="150">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="2"><i>Loading...</i></td>
-                </tr>
-            </tbody>
-        </table>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <a href="<?php echo ADMIN_URL . 'role/add'; ?>" class="btn btn-success"> Add Role</a>
     </div>
+</div>
+<br />
+<div id="mainpanel" class="box-body table-responsive">
+    <table class="table table-bordered table-hover" id="list_data">
+        <thead class="the-box dark full">
+            <tr align="left">
+                <th>Role Name</th>
+                <th width="150">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2"><i>Loading...</i></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

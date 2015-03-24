@@ -43,13 +43,6 @@
             dnd : false
         });
         
-        $('#permission_tree-checkAll').click(function(){
-            $('#permission_tree div').tree('checkAll');
-        });
-
-        $('#permission_tree-uncheckAll').click(function(){
-            $('#permission_tree div').tree('uncheckAll');
-        });
     });
     //]]>
 </script>
@@ -65,27 +58,16 @@
             </div>
         </div>
 
-
         <div class="form-group">
-            <label class="col-lg-3 control-label">&nbsp;</label>
-            <div class="col-lg-5">
-                 <button id="permission_tree-checkAll" type="button" class="btn btn-default">Check All</button>
-                <button id="permission_tree-uncheckAll" type="button" class="btn btn-default">Uncheck All</button>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="question" class="col-lg-3 control-label">
-                <?php echo $this->lang->line('permission'); ?>
+            <label for="question" class="col-lg-2 control-label">
+                Permissions
                 <span class="text-danger">&nbsp;</span>
             </label>
-            <div class="col-lg-5">
+            <div class="col-lg-9">
                 <div id="permission_tree">
-                    <div>
-                        <ul>
-                            <?php echo loopPermissionArray(createPermissionArray(), unserialize($role->permission)); ?>
-                        </ul>
-                    </div>
+                    <ul class="permission-tree-ul">
+                        <?php echo loopPermissionArray(createPermissionArray(), unserialize($role->permission)); ?>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -93,8 +75,8 @@
         <div class="form-group">
             <label class="col-lg-3 control-label">&nbsp;</label>
             <div class="col-lg-5">
-                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('update'); ?>"><?php echo $this->lang->line('update'); ?></button>
-                <a href="<?php echo base_url() . 'role' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="<?php echo $this->lang->line('cancel'); ?>"><?php echo $this->lang->line('cancel'); ?></a>
+                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="Update">Update</button>
+                <a href="<?php echo ADMIN_URL. 'role' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
             </div>
         </div>
 

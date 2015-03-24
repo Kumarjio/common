@@ -6,7 +6,7 @@ if (!function_exists('hasPermission')) {
         if ($data->role == 1) {
             return TRUE;
         } else {
-            $permissions= get_instance()->config->item('user_premission');
+            $permissions= get_instance()->config->item('admin_session');
             if (is_array($permissions) && array_key_exists($controller, $permissions) && in_array($method, $permissions[$controller])) {
                 return TRUE;
             } else {
@@ -66,7 +66,7 @@ if (!function_exists('printPermission')) {
                 }
 
 
-                return '<li><input type="' . $type . '" value="' . $key . '"' . $name . $str . $class . '/><span>' . $v . '</span>';
+                return '<li><input type="' . $type . '" value="' . $key . '"' . $name . $str . $class . '/><span>&nbsp;' . $v . '</span>';
             } else {
                 break;
             }
@@ -94,18 +94,20 @@ if (!function_exists('createPermissionArray')) {
         $CI =& get_instance();
         $permission = array(
             'roles' => array(
-                'name' => $CI->lang->line('role'),
+                'name' => 'Roles',
                 'hasChild' => array(
-                    'viewRole' => array('name' => $CI->lang->line('list')),
-                    'addRole' => array('name' => $CI->lang->line('add')),
-                    'editRole' => array('name' => $CI->lang->line('edit')),
-                    'deleteRole' => array('name' => $CI->lang->line('delete')),
-                    )),
+                    'viewRole' => array('name' => 'List'),
+                    'addRole' => array('name' => 'Add'),
+                    'editRole' => array('name' => 'Edit'),
+                    'deleteRole' => array('name' => 'Delete'),
+                )
+            ),
             'systemsettings' => array(
-                'name' => $CI->lang->line('system_setting'),
+                'name' => 'System Setting',
                 'hasChild' => array(
-                    'viewSystemSetting' => array('name' => $CI->lang->line('edit'))
-                    ))
+                    'viewSystemSetting' => array('name' => 'Edit')
+                )
+            )
         );
         return $permission;
     }

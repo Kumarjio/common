@@ -56,8 +56,6 @@ if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.16
   }
 }
 
-
-
 $route['admin/' . $controller] = 'admin/' . plural($controller) . "/view" . ucwords($controller);
 $route['admin/' . $controller . '/list'] = 'admin/' . plural($controller) . "/view" . ucwords($controller);
 $route['admin/' . $controller . '/view/(:num)'] = 'admin/' . plural($controller) . "/view" . ucwords($controller) . "/$1";
@@ -88,6 +86,7 @@ $route['admin/logout'] = "admin/authenticate/logout";
 $route['admin/forgot_password'] = "admin/authenticate/userForgotPassword";
 $route['admin/send_reset_password_link'] = "admin/authenticate/userSendResetPasswordLink";
 $route['admin/reset_password/(:any)'] = "admin/authenticate/userResetPassword/$1";
+$route['admin/denied'] = "admin/authenticate/noPermission";
 
 //Dashboard
 $route['admin/get_dashboard_count'] = 'admin/ajax/getDashboardTotalCountData';

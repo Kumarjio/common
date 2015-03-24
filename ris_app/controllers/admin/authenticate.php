@@ -22,6 +22,7 @@ class authenticate extends CI_Controller
     private function _setSessionData($admin) {
         $user_data = new stdClass();
         $user_data->id = $admin->id;
+        $user_data->role = $admin->role_id;
         $user_data->name = $admin->fullname;
         $user_data->profile_pic = $admin->profile_pic;
         $user_data->email = $admin->email;
@@ -39,7 +40,7 @@ class authenticate extends CI_Controller
             $this->session->set_flashdata('error', 'All fields are compulsory');
             redirect(ADMIN_URL .'login', 'refresh');
         } else {
-            $admin = new Admin();
+            $admin = new User();
             $admin->where('email', $this->input->post('email'));
             $admin->where('password', md5($this->input->post('password')));
             $admin->get();
@@ -78,7 +79,7 @@ class authenticate extends CI_Controller
             $this->session->set_flashdata('error', 'All fields are compulsory');
             redirect(ADMIN_URL .'forgot_password', 'refresh');
         } else {
-            $user = new Admin();
+            $user = new User();
             $user->where('email', $this->input->post('email'))->get();
             
             $email = new Email();
@@ -123,7 +124,7 @@ class authenticate extends CI_Controller
                 $this->session->set_flashdata('error', 'Both password does not match');
                 redirect(ADMIN_URL .'reset_password/' . $random_string , 'refresh');
             } else {
-                $user = new Admin();
+                $user = new User();
                 $user->where('password', $random_string)->get();
                 if ($user->result_count() == 1) {
                     $user->password = md5($this->input->post('new_password'));
@@ -140,6 +141,14 @@ class authenticate extends CI_Controller
             $data['random_string'] = $random_string;
             $this->layout->view('admin/authenticate/reset_password', $data);
         }
+    }
+
+    function permissionDenied() {
+        $this->layout->view('authenticate/permission');
+    }
+    
+    function error_404() {
+        $this->layout->view('authenticate/error_404');
     }
 
 }

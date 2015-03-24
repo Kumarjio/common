@@ -423,3 +423,23 @@ video {
 .label-danger {
     background-color: #d9534f;
 }
+
+
+#permission_tree ul li {
+    list-style-type: none;
+}
+
+.permission-tree-ul li {
+    border-bottom: 1px black dashed;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.permission-tree-ul li ul li{
+    display: inline-block;
+    min-width: 75px;
+    margin-bottom: 0;
+    border-bottom: none;
+    font-weight: normal;
+    line-height: 50px;
+}
