@@ -76,6 +76,16 @@ $config['scrap_sites'] = array(
   '1' => 'Just Dial'
 );
 
+$config['location_continent'] = array(
+  '1' => 'Africa',
+  '2' => 'Antarctica',
+  '3' => 'Asia',
+  '4' => 'Australia / Oceania',
+  '5' => 'Europe',
+  '6' => 'North America',
+  '7' => 'South America'
+);
+
 /*
   |--------------------------------------------------------------------------
   | Index File

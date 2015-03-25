@@ -153,6 +153,20 @@
                             </ul>
                         </li>
 
+                        <li class="treeview <?php echo ($uri_1 == 'country' || $uri_1 == 'state' || $uri_1 == 'city') ? 'active' : ''; ?>">
+                            <a href="#">
+                                <i class="fa fa-gears"></i> <span>Locations</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="<?php echo ($uri_1 == 'country') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'country'; ?>"><i class="fa fa-globe"></i>Country</a></li>
+
+                                <li class="<?php echo ($uri_1 == 'state') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'state'; ?>"><i class="fa fa-globe"></i>State</a></li>
+
+                                <li class="<?php echo ($uri_1 == 'city') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'city'; ?>"><i class="fa fa-globe"></i>City</a></li>
+                            </ul>
+                        </li>
+
                         <li class="treeview <?php echo ($uri_1 == 'system_setting' && ($uri_2 == 'general' || $uri_2 == 'mail')) ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Settings</span>
