@@ -38,8 +38,36 @@ class ajax extends CI_Controller
             $data['total_compaines'] = $obj_company->count();
 
             $obj_scrap = new Scrap();
-            $data['total_urls'] = $obj_scrap->count();
+            $total = $obj_scrap->count();
+            $obj_scrap->where('status', '1')->get();
+            $data['total_urls'] = $obj_scrap->result_count() .' / ' . $total;
+
+            $obj_leads = new Lead();
+            $data['total_leads'] = $obj_leads->count();
 
             echo json_encode(array('total_counts' => $data));
     }
+
+    function getAllStatesOptionsFromCountry($country_id) {
+        $states = New State();
+        $states->Where('country_id', $country_id);
+        $states->order_by('name', 'ASC');
+        $states->get();
+        echo '<option value="">Select Sate</option>';
+        foreach ($states as $state) {
+            echo '<option value="' . $state->id . '">' . $state->name . '</option>';
+        }
+    }
+    
+    function getAllCitiesOptionsFromState($state_id) {
+        $cities = New City();
+        $cities->Where('state_id', $state_id);
+        $cities->order_by('name', 'ASC');
+        $cities->get();
+        echo '<option value="">Select City</option>';
+        foreach ($cities as $city) {
+            echo '<option value="' . $city->id . '">' . $city->name . '</option>';
+        }
+    }
+
 }

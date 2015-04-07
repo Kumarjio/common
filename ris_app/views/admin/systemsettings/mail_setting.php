@@ -13,7 +13,7 @@
             <div class="form-group">
                 <label for="question" class="col-lg-2 control-label"><?php echo ucfirst(str_replace('_', ' ', $value->sys_key)); ?> <span class="text-danger">*</span></label>
                 <div class="col-lg-5">
-                    <input type="text" name="<?php echo $value->sys_key; ?>"  class="form-control required" value="<?php echo $value->sys_value; ?>"/>
+                    <input type="<?php echo ($value->sys_key == 'smtp_pass') ? 'password' : 'text'; ?>" name="<?php echo $value->sys_key; ?>"  class="form-control required" value="<?php echo $value->sys_value; ?>"/>
                 </div>
             </div>
 

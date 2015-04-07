@@ -101,17 +101,12 @@
                 <section class="sidebar">
                     <ul class="sidebar-menu">
                         <li class="<?php echo ($uri_1 == 'dashboard') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a> </li>
-
                         <li class="<?php echo ($uri_1 == 'company') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'company'; ?>"><i class="fa fa-users"></i>Company</a></li>
-
                         <li class="<?php echo ($uri_1 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
-
                         <li class="<?php echo ($uri_1 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
-
                         <li class="<?php echo ($uri_1 == 'balancesheet') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'balancesheet'; ?>"><i class="fa fa-money"></i>Expense</a></li>
-
                         <li class="<?php echo ($uri_1 == 'role') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'role'; ?>"><i class="fa fa-list-alt"></i>Roles</a></li>
-
+                        <li class="<?php echo ($uri_1 == 'lead') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'lead'; ?>"><i class="fa fa-list-alt"></i>Lead</a></li>
                         <li class="treeview <?php echo ($uri_1 == 'businesscategory' || $uri_1 == 'businesssubcategory') ? 'active' : ''; ?>">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>Business</span>
@@ -150,20 +145,6 @@
                                 <li class="<?php echo ($uri_1 == 'email') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'email'; ?>"><i class="fa fa-envelope"></i>Email</a></li>
 
                                 <li class="<?php echo ($uri_1 == 'newslettertemplate') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newslettertemplate'; ?>"><i class="fa fa-envelope"></i>Newsletter</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="treeview <?php echo ($uri_1 == 'country' || $uri_1 == 'state' || $uri_1 == 'city') ? 'active' : ''; ?>">
-                            <a href="#">
-                                <i class="fa fa-gears"></i> <span>Locations</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li class="<?php echo ($uri_1 == 'country') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'country'; ?>"><i class="fa fa-globe"></i>Country</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'state') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'state'; ?>"><i class="fa fa-globe"></i>State</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'city') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'city'; ?>"><i class="fa fa-globe"></i>City</a></li>
                             </ul>
                         </li>
 

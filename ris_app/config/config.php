@@ -22,7 +22,7 @@ if (!defined('BASEPATH'))
 
 $http = 'http://';
 
-if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.168.1.29') {
+if ($_SERVER['SERVER_ADDR'] == '127.0.0.1') {
   $config['base_url'] = $http .'localhost/common/';
 } else {
   $config['base_url'] = $http .'labs.rootitsolutions.com/ris/';
@@ -73,17 +73,8 @@ $config['company_type_array'] = array(
 );
 
 $config['scrap_sites'] = array(
-  '1' => 'Just Dial'
-);
-
-$config['location_continent'] = array(
-  '1' => 'Africa',
-  '2' => 'Antarctica',
-  '3' => 'Asia',
-  '4' => 'Australia / Oceania',
-  '5' => 'Europe',
-  '6' => 'North America',
-  '7' => 'South America'
+  '1' => 'Just Dial',
+  '2' => 'Yellow Pages'
 );
 
 /*

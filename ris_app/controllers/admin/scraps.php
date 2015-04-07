@@ -29,6 +29,9 @@ class scraps extends CI_Controller {
             $obj_scrap->type = $this->input->post('type');
             $obj_scrap->businesscategory_id = $this->input->post('businesscategory_id');
             $obj_scrap->businesssubcategory_id = $this->input->post('businesssubcategory_id');
+            $obj_scrap->country_id = $this->input->post('country_id');
+            $obj_scrap->state_id = $this->input->post('state_id');
+            $obj_scrap->city_id = $this->input->post('city_id');
             $obj_scrap->url = $this->input->post('url');
             $link_status = $this->input->post('link_status');
             if(!empty($link_status)){
@@ -47,6 +50,10 @@ class scraps extends CI_Controller {
 
             $obj_cat = new Businesscategory();
             $data['categories'] = $obj_cat->get();
+
+            $obj_country = new Country();
+            $obj_country->order_by('name', 'ASC');
+            $data['countries'] = $obj_country->get();
 
             $this->layout->view('admin/scraps/add', $data);
         }

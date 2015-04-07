@@ -29,6 +29,31 @@
                 success: function(data){
                     jQuery('#businesssubcategory_id').empty();
                     jQuery('#businesssubcategory_id').append(data);
+                    jQuery("#businesssubcategory_id").trigger("chosen:updated");
+                }
+            });
+        });
+
+        jQuery('#country_id').change(function(){
+            jQuery.ajax({
+                type: 'GET',
+                url: '<?php echo ADMIN_URL ."get_state/"; ?>' + $('#country_id').val(),
+                success: function(data){
+                    jQuery('#state_id').empty();
+                    jQuery('#state_id').append(data);
+                    jQuery("#state_id").trigger("chosen:updated");
+                }
+            });
+        });
+
+        jQuery('#state_id').change(function(){
+            jQuery.ajax({
+                type: 'GET',
+                url: '<?php echo ADMIN_URL ."get_city/"; ?>' + $('#state_id').val(),
+                success: function(data){
+                    jQuery('#city_id').empty();
+                    jQuery('#city_id').append(data);
+                    jQuery("#city_id").trigger("chosen:updated");
                 }
             });
         });
@@ -56,7 +81,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">Business Category <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <select name="businesscategory_id" class="form-control required" id="businesscategory_id">
+                    <select name="businesscategory_id" class="form-control required chosen-select" id="businesscategory_id">
                         <option value=""></option>
                         <?php foreach ($categories as $category) { ?>
                             <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
@@ -68,7 +93,37 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">Sub Category Name<span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <select name="businesssubcategory_id" class="form-control required" id="businesssubcategory_id">
+                    <select name="businesssubcategory_id" class="form-control required chosen-select" id="businesssubcategory_id">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Country <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select name="country_id" class="form-control required chosen-select" id="country_id">
+                        <option value=""></option>
+                        <?php foreach ($countries as $country) { ?>
+                            <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">State <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select name="state_id" class="form-control required chosen-select" id="state_id">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">City <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select name="city_id" class="form-control required chosen-select" id="city_id">
+                        <option value=""></option>
                     </select>
                 </div>
             </div>
