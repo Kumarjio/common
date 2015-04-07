@@ -48,6 +48,30 @@
         jQuery('#city_id').change(function(){
             loaDatatable();
         });
+
+        $('#mainpanel').delegate('.detailReport', 'click', function(e){
+            e.preventDefault();
+            $this = $(this);
+            table = jQuery('#list_data').DataTable();
+            jQuery.ajax({
+                url: $this.attr('data-url'),
+                success: function(data) {
+                    var tr = $this.closest('tr');
+                    var row = table.row(tr);
+                    if (row.child.isShown()) {
+                        $this.find('i').removeClass('fa-minus-circle');
+                        $this.find('i').addClass('fa-plus-circle');
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    } else {
+                        $this.find('i').addClass('fa-minus-circle');
+                        $this.find('i').removeClass('fa-plus-circle');
+                        row.child(data).show();
+                        tr.addClass('shown');
+                    }
+                } 
+            });
+        });
     });
 
     function loaDatatable(){
@@ -114,7 +138,8 @@
         <hr />
     </div>
 </div>
-<div class="box-body table-responsive">
+
+<div id="mainpanel" class="box-body table-responsive">
     <table class="table table-bordered table-hover" id="list_data">
         <thead>
             <tr align="left">
@@ -128,7 +153,7 @@
         </thead>
         <tbody>
             <tr>
-                 <td colspan="5"><i>Loading...</i></td>
+                 <td colspan="6"><i>Loading...</i></td>
             </tr>
         </tbody>
     </table>

@@ -1,8 +1,8 @@
 <?php
 class Businesssubcategory extends DataMapper
 {
-    
-    // Optionally, don't include a constructor if you don't need one.
+    public $has_many = array('lead');
+
     function __construct($id = NULL) {
         parent::__construct($id);
     }

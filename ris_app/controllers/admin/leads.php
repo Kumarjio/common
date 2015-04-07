@@ -59,7 +59,7 @@ class leads extends CI_Controller
         
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
-            $temp_arr[] = $aRow['lead'];
+            $temp_arr[] = '<a href="javascript:;" data-url="'. ADMIN_URL .'lead/view_full_detail/'. $aRow['id'] .'" class="detailReport"><i class="fa fa-plus-circle"></i></a> &nbsp;&nbsp;' . $aRow['lead'];
             $temp_arr[] = $aRow['cat_name'];
             $temp_arr[] = $aRow['sub_cat'];
             $temp_arr[] = $aRow['country'];
@@ -69,5 +69,25 @@ class leads extends CI_Controller
         }
         echo json_encode($this->datatable->output);
         exit();
+    }
+
+    function getDetailViewReport($id){
+        $obj_lead = new Lead();
+        $obj_lead->where('id', $id)->get();
+
+        if($obj_lead->result_count() == 1){
+            $obj_lead->stored->country_name = $obj_lead->country->name;
+            $obj_lead->stored->state_name = $obj_lead->state->name;
+            $obj_lead->stored->city_name = $obj_lead->city->name;
+            $obj_lead->stored->businesscategory_name = $obj_lead->businesscategory->name;
+            $obj_lead->stored->businesssubcategory_name = $obj_lead->businesssubcategory->name;
+
+            $html = $this->load->view('admin/leads/lead_detail_view', array('lead_detail' => $obj_lead->stored), true);
+        } else {
+            $html  = 'No Record Exits';
+        }
+
+        echo $html;
+
     }
 }

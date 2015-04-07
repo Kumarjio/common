@@ -111,6 +111,9 @@ $route['admin/student/get_fee_report/(:num)'] = "admin/students/getStudentFeeRep
 //Balancesheet
 $route['admin/balancesheet/get_detail_view/(:any)'] = "admin/balancesheets/getDetailViewReport/$1";
 
+//Lead
+$route['admin/lead/view_full_detail/(:num)'] = "admin/leads/getDetailViewReport/$1";
+
 //Cron Jobs
 $route['cron/test'] = "admin/cronjobs/test";
 $route['cron/get_url'] = "admin/cronjobs/getUrls";
