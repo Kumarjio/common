@@ -120,6 +120,7 @@ $route['cron/get_url'] = "admin/cronjobs/getUrls";
 $route['cron/get_url/(:num)'] = "admin/cronjobs/getUrls/$1";
 $route['cron/get_url_data'] = "admin/cronjobs/getUrlData";
 $route['cron/get_url_data/(:num)'] = "admin/cronjobs/getUrlData/$1";
+$route['cron/read/(:any)'] = "admin/cronjobs/readcsv/$1";
 
 $route['api/track_mail/(:num)'] = "admin/api/trackMailHit/$1";
 $route['api/sendmail'] = "admin/api/sendmail";

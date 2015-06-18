@@ -133,16 +133,20 @@ class cronjobs extends CI_Controller {
     /* ************** Get Scrap Datas  ************** */
 
     public function getUrlData($limit = 1) {
+        header( 'Content-type: text/html; charset=utf-8' );
         $obj_scrap = new Scrap();
         $obj_scrap->where(array('status' => '0'));
         $obj_scrap->limit($limit);
         $data = $obj_scrap->get();
 
-        foreach ($data as $url) {
+        foreach ($data as $key => $url) {
             $this->db->query('UPDATE scraps SET status="1" WHERE id=' . $url->id);
             //$this->db->where('id', $url->id);
             //$this->db->update('scraps', array('status' => '1'));
-            echo '<br /><br />Start :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
+            echo '<br /><br />'. ++$key .' : Start :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
+            flush();
+            ob_flush();
+            sleep(1);
 
             switch ($url->type) {
                 case '1':
@@ -156,12 +160,18 @@ class cronjobs extends CI_Controller {
                 default:
                     break;
             }
+
             echo '<br />End :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
+            flush();
+            ob_flush();
+            sleep(1);
         }
 
-        //echo "<script>setInterval(function() { window.location.href = 'http://localhost/common/cron/get_url_data' }, 30000)</script>";
-
-        return true;
+        echo '<br /><br />Please wait while redirecting...<script>setTimeout(function(){ window.location.reload(); }, 10000);</script>';
+        flush();
+        ob_flush();
+        sleep(1);
+        //return true;
     }
 
     private function _scrapUrlDataJustDial($obj_scrap) {
@@ -503,7 +513,6 @@ class cronjobs extends CI_Controller {
                 );
                 $this->db->insert('leads', $new);
             }
-
         }
         
         fclose($file);
