@@ -138,9 +138,11 @@ class cronjobs extends CI_Controller {
         $obj_scrap->limit($limit);
         $data = $obj_scrap->get();
 
-        foreach ($data as $url) {  
-            $this->db->where('id', $url->id);
-            $this->db->update('scraps', array('s_time' => strtotime(date('Y-m-d H:i:s'))));
+        foreach ($data as $url) {
+            $this->db->query('UPDATE scraps SET status="1" WHERE id=' . $url->id);
+            //$this->db->where('id', $url->id);
+            //$this->db->update('scraps', array('status' => '1'));
+            echo '<br /><br />Start :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
 
             switch ($url->type) {
                 case '1':
@@ -154,11 +156,11 @@ class cronjobs extends CI_Controller {
                 default:
                     break;
             }
-
-            $this->db->where('id', $url->id);
-            $this->db->update('scraps', array('status' => '1', 'e_time' => strtotime(date('Y-m-d H:i:s'))));
+            echo '<br />End :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
         }
-        
+
+        //echo "<script>setInterval(function() { window.location.href = 'http://localhost/common/cron/get_url_data' }, 30000)</script>";
+
         return true;
     }
 
@@ -240,9 +242,10 @@ class cronjobs extends CI_Controller {
     }
 
     private function _scrapUrlDataYellowPages($obj_scrap) {
-
+        $final = array();
         $url_parts = explode('/',$obj_scrap->url);
         $scraped_page = myCurl($obj_scrap->url);
+
         preg_match_all('#<div class="MT_20"+.*?>(.+?)</div>#is', $scraped_page, $outer_sections);
         $outer_sections = array_filter($outer_sections);
         if (!empty($outer_sections)) {
@@ -313,25 +316,27 @@ class cronjobs extends CI_Controller {
                         $temp['country_id'] = $obj_scrap->country_id;
                         $temp['state_id'] = $obj_scrap->state_id;
                         $temp['city_id'] = $obj_scrap->city_id;
+                        $final[] = $temp;
+                        /*
+                            $this->db->select('*');
+                            $this->db->where(
+                                array_filter(array(
+                                    'businesscategory_id' => $temp['businesscategory_id'],
+                                    'businesssubcategory_id' => $temp['businesssubcategory_id'],
+                                    'country_id' => $temp['country_id'],
+                                    'state_id' => $temp['state_id'],
+                                    'city_id' => $temp['city_id'],
+                                    'name' => $this->_cleanText($temp['name']),
+                                    'email' => $this->_cleanText($temp['email']),
+                                ))
+                            );
 
-                        $this->db->select('*');
-                        $this->db->where(
-                            array_filter(array(
-                                'businesscategory_id' => $temp['businesscategory_id'],
-                                'businesssubcategory_id' => $temp['businesssubcategory_id'],
-                                'country_id' => $temp['country_id'],
-                                'state_id' => $temp['state_id'],
-                                'city_id' => $temp['city_id'],
-                                'name' => $this->_cleanText($temp['name']),
-                                'email' => $this->_cleanText($temp['email']),
-                            ))
-                        );
-
-                        $this->db->from('leads');
-                        $count = $this->db->count_all_results();
-                        if ($count == 0) {
-                            $this->db->insert('leads', $temp);
-                        }
+                            $this->db->from('leads');
+                            $count = $this->db->count_all_results();
+                            if ($count == 0) {
+                                $this->db->insert('leads', $temp);
+                            }
+                        */
                     }
                 }
             }
@@ -415,36 +420,93 @@ class cronjobs extends CI_Controller {
                             $temp['country_id'] = $obj_scrap->country_id;
                             $temp['state_id'] = $obj_scrap->state_id;
                             $temp['city_id'] = $obj_scrap->city_id;
+                            $final[] = $temp;
+                            /*
+                                $this->db->select('*');
+                                $this->db->where(
+                                    array_filter(array(
+                                        'businesscategory_id' => $temp['businesscategory_id'],
+                                        'businesssubcategory_id' => $temp['businesssubcategory_id'],
+                                        'country_id' => $temp['country_id'],
+                                        'state_id' => $temp['state_id'],
+                                        'city_id' => $temp['city_id'],
+                                        'name' => $this->_cleanText($temp['name']),
+                                        'phone_number' => $this->_cleanText($temp['phone_number']),
+                                        'address' => $this->_cleanText($temp['address']),
+                                        'email' => $this->_cleanText($temp['email']),
+                                    ))
+                                );
 
-                            $this->db->select('*');
-                            $this->db->where(
-                                array_filter(array(
-                                    'businesscategory_id' => $temp['businesscategory_id'],
-                                    'businesssubcategory_id' => $temp['businesssubcategory_id'],
-                                    'country_id' => $temp['country_id'],
-                                    'state_id' => $temp['state_id'],
-                                    'city_id' => $temp['city_id'],
-                                    'name' => $this->_cleanText($temp['name']),
-                                    'phone_number' => $this->_cleanText($temp['phone_number']),
-                                    'address' => $this->_cleanText($temp['address']),
-                                    'email' => $this->_cleanText($temp['email']),
-                                ))
-                            );
-
-                            $this->db->from('leads');
-                            $count = $this->db->count_all_results();
-                            if ($count == 0) {
-                                $this->db->insert('leads', $temp);
-                            }
+                                $this->db->from('leads');
+                                $count = $this->db->count_all_results();
+                                if ($count == 0) {
+                                    $this->db->insert('leads', $temp);
+                                }
+                            */
                         }
                     }
                 }
             }
         }
+
+        $this->_writeCSV($final);
     }
 
     private function _cleanText($text){
         return html_entity_decode(trim($text));
+    }
+
+    private function _writeCSV($leads){
+        $handle = fopen("./assets/leads/". date('Y-m-d') .".csv", "a");
+        foreach ($leads as $lead) {
+            fputcsv($handle, $lead);
+        }
+        fclose($handle);
+        return true;
+    }
+
+    function readcsv($date = null){
+        $path = "./assets/leads/". $date . ".csv";
+        $file = fopen($path, "r");
+
+        while(!feof($file)) {
+            $data = fgetcsv($file);
+            $this->db->select('*');
+            $this->db->where(
+                array_filter(array(
+                    'businesscategory_id' => $data[5],
+                    'businesssubcategory_id' => $data[6],
+                    'country_id' => $data[7],
+                    'state_id' => $data[8],
+                    'city_id' => $data[9],
+                    'name' => $this->_cleanText($data[0]),
+                    'phone_number' => $this->_cleanText($data[1]),
+                    'address' => $this->_cleanText($data[2]),
+                    'email' => $this->_cleanText($data[3]),
+                ))
+            );
+
+            $this->db->from('leads');
+            $count = $this->db->count_all_results();
+            if ($count == 0) {
+                $new = array(
+                    'businesscategory_id' => $data[5],
+                    'businesssubcategory_id' => $data[6],
+                    'country_id' => $data[7],
+                    'state_id' => $data[8],
+                    'city_id' => $data[9],
+                    'name' => $this->_cleanText($data[0]),
+                    'phone_number' => $this->_cleanText($data[1]),
+                    'address' => $this->_cleanText($data[2]),
+                    'email' => $this->_cleanText($data[3]),
+                    'website' => $this->_cleanText($data[4])
+                );
+                $this->db->insert('leads', $new);
+            }
+
+        }
+        
+        fclose($file);
     }
 
     /* ************** Get Scrap Datas  ************** */
