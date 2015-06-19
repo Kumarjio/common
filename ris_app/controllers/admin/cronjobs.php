@@ -45,27 +45,27 @@ class cronjobs extends CI_Controller {
     }
 
     private function _scrapUrlsJustDial($scrap) {
-        $main_link = $scrap->url;
+        $temp_url = array_filter(explode('/', $scrap->url));
         $links = array();
         $exit = false;
         $i = 2;
         do {
-            $url = $main_link . '/page-' . $i;
+            $url = 'http://www.justdial.com/functions/ajxsearch.php?national_search=0&act=pagination&city='.$temp_url[3].'&search='.$temp_url[4].'&where=&catid='. str_replace('ct-', '', $temp_url[5]).'&psearch=&prid=&page=' . $i;
             $this->db->where(array('url' => $url));
             $this->db->from('scraps');
             $count = $this->db->count_all_results();
             if ($count == 0) {
-                $scraped_page = myCurl($url);
-                preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page, $outer_sections);
-                $outer_sections = array_filter($outer_sections);
-                if (empty($outer_sections)) {
+                $scraped_page = json_decode(myCurl($url));
+                if(empty($scraped_page->markup) || $scraped_page->markup == ''){
                     $exit = true;
-                }
-                else {
+                } else {
                     $obj_new_scrap = array();
                     $obj_new_scrap['type'] = $scrap->type;
                     $obj_new_scrap['businesscategory_id'] = $scrap->businesscategory_id;
                     $obj_new_scrap['businesssubcategory_id'] = $scrap->businesssubcategory_id;
+                    $obj_new_scrap['country_id'] = $scrap->country_id;
+                    $obj_new_scrap['state_id'] = $scrap->state_id;
+                    $obj_new_scrap['city_id'] = $scrap->city_id;
                     $obj_new_scrap['url'] = $url;
                     $obj_new_scrap['link_status'] = '1';
                     $this->db->insert('scraps', $obj_new_scrap);
@@ -141,12 +141,10 @@ class cronjobs extends CI_Controller {
 
         foreach ($data as $key => $url) {
             $this->db->query('UPDATE scraps SET status="1" WHERE id=' . $url->id);
-            //$this->db->where('id', $url->id);
-            //$this->db->update('scraps', array('status' => '1'));
-            echo '<br /><br />'. ++$key .' : Start :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
+            /*echo '<br /><br />'. ++$key .' : Start :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
             flush();
             ob_flush();
-            sleep(1);
+            sleep(1);*/
 
             switch ($url->type) {
                 case '1':
@@ -161,22 +159,26 @@ class cronjobs extends CI_Controller {
                     break;
             }
 
-            echo '<br />End :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
+            /*echo '<br />End :: ', $url->url , ' :: ', date('Y-m-d H:i:s');
             flush();
             ob_flush();
-            sleep(1);
+            sleep(1);*/
         }
 
-        echo '<br /><br />Please wait while redirecting...<script>setTimeout(function(){ window.location.reload(); }, 10000);</script>';
+        /*echo '<br /><br />Please wait while redirecting...<script>setTimeout(function(){ window.location.reload(); }, 10000);</script>';
         flush();
         ob_flush();
-        sleep(1);
-        //return true;
+        sleep(1);*/
     }
 
     private function _scrapUrlDataJustDial($obj_scrap) {
-        $scraped_page = myCurl($obj_scrap->url);
-        preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page, $outer_sections);
+        $scraped_page = json_decode(myCurl($obj_scrap->url));
+        if(!empty($scraped_page->markup) && $scraped_page->markup != ''){
+            preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page->markup, $outer_sections);
+        } else {
+            $scraped_page = myCurl($obj_scrap->url);
+            preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page, $outer_sections);
+        }
 
         foreach ($outer_sections[1] as $outer_section) {
             $temp = array();
@@ -204,20 +206,20 @@ class cronjobs extends CI_Controller {
 
             $address = $html_2->find('aside p .jaddt');
             if (isset($address[0]) && !empty($address[0]->plaintext)) {
-                $temp['address'] = $this->_cleanText($address[0]->plaintext);
+                $temp['address'] = str_replace(' View Map', '', $this->_cleanText($address[0]->plaintext));
             }
 
-            $mobile = $html_2->find('aside .jmob');
+            $mobile = $html_2->find('aside .ic_mob');
             if (isset($mobile[0]) && !empty($mobile[0]->parent()->plaintext)) {
                 $temp['mobile'] = $this->_cleanText($mobile[0]->parent()->plaintext);
             }
 
-            $landline = $html_2->find('aside .jtel');
+            $landline = $html_2->find('aside .ic_phn');
             if (isset($landline[0]) && !empty($landline[0]->parent()->plaintext)) {
                 $temp['landline'] = $this->_cleanText($landline[0]->parent()->plaintext);
             }
 
-            $url = $html_2->find('aside .jwb');
+            $url = $html_2->find('aside .ic_web');
             if (isset($url[0]) && !empty($url[0]->parent()->plaintext)) {
                 $temp_urls = explode('|', $this->_cleanText($url[0]->parent()->plaintext));
                 $urls = array();
@@ -240,14 +242,14 @@ class cronjobs extends CI_Controller {
                 }
             }
             $temp['listedin'] = implode(',', array_values(array_unique(array_filter($also_listed))));
-
-            $this->db->select('*');
+            $this->_writeJDCSV($temp);
+            /*$this->db->select('*');
             $this->db->where(array('businesscategory_id' => $temp['businesscategory_id'], 'businesssubcategory_id' => $temp['businesssubcategory_id'], 'company_name' => $this->_cleanText($temp['company_name'])));
             $this->db->from('companies');
             $count = $this->db->count_all_results();
             if ($count == 0) {
                 $this->db->insert('companies', $temp);
-            }
+            }*/
         }
     }
 
@@ -327,26 +329,6 @@ class cronjobs extends CI_Controller {
                         $temp['state_id'] = $obj_scrap->state_id;
                         $temp['city_id'] = $obj_scrap->city_id;
                         $final[] = $temp;
-                        /*
-                            $this->db->select('*');
-                            $this->db->where(
-                                array_filter(array(
-                                    'businesscategory_id' => $temp['businesscategory_id'],
-                                    'businesssubcategory_id' => $temp['businesssubcategory_id'],
-                                    'country_id' => $temp['country_id'],
-                                    'state_id' => $temp['state_id'],
-                                    'city_id' => $temp['city_id'],
-                                    'name' => $this->_cleanText($temp['name']),
-                                    'email' => $this->_cleanText($temp['email']),
-                                ))
-                            );
-
-                            $this->db->from('leads');
-                            $count = $this->db->count_all_results();
-                            if ($count == 0) {
-                                $this->db->insert('leads', $temp);
-                            }
-                        */
                     }
                 }
             }
@@ -431,28 +413,6 @@ class cronjobs extends CI_Controller {
                             $temp['state_id'] = $obj_scrap->state_id;
                             $temp['city_id'] = $obj_scrap->city_id;
                             $final[] = $temp;
-                            /*
-                                $this->db->select('*');
-                                $this->db->where(
-                                    array_filter(array(
-                                        'businesscategory_id' => $temp['businesscategory_id'],
-                                        'businesssubcategory_id' => $temp['businesssubcategory_id'],
-                                        'country_id' => $temp['country_id'],
-                                        'state_id' => $temp['state_id'],
-                                        'city_id' => $temp['city_id'],
-                                        'name' => $this->_cleanText($temp['name']),
-                                        'phone_number' => $this->_cleanText($temp['phone_number']),
-                                        'address' => $this->_cleanText($temp['address']),
-                                        'email' => $this->_cleanText($temp['email']),
-                                    ))
-                                );
-
-                                $this->db->from('leads');
-                                $count = $this->db->count_all_results();
-                                if ($count == 0) {
-                                    $this->db->insert('leads', $temp);
-                                }
-                            */
                         }
                     }
                 }
@@ -463,7 +423,20 @@ class cronjobs extends CI_Controller {
     }
 
     private function _cleanText($text){
-        return html_entity_decode(trim($text));
+        $text = html_entity_decode($text);
+        $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
+        $text = preg_replace('/([\s])\1+/', ' ', $text);
+        $text = trim($text);
+        return $text;
+    }
+
+    private function _writeJDCSV($leads){
+        $handle = fopen("./assets/leads/". date('Y-m-d') ."_jd.csv", "a");
+        foreach ($leads as $lead) {
+            fputcsv($handle, $lead);
+        }
+        fclose($handle);
+        return true;
     }
 
     private function _writeCSV($leads){
