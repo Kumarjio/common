@@ -2,7 +2,7 @@
 class State extends DataMapper
 {
     
-    public $has_many = array('city', 'lead');
+    public $has_many = array('city', 'lead', 'company');
     public $has_one = array('country');
     
     // Optionally, don't include a constructor if you don't need one.

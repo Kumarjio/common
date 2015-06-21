@@ -138,7 +138,7 @@ class companies extends CI_Controller
 
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
-            $temp_arr[] = $aRow['company_name'];
+            $temp_arr[] = '<a href="javascript:;" data-url="'. ADMIN_URL .'company/view_full_detail/'. $aRow['id'] .'" class="detailReport"><i class="detail-icon fa fa-plus-circle"></i></a> &nbsp;&nbsp;' . $aRow['company_name'];
             
             if(!empty($aRow['url'])){
                 $urls = explode(',', $aRow['url']);
@@ -159,5 +159,24 @@ class companies extends CI_Controller
         }
         echo json_encode($this->datatable->output);
         exit();
+    }
+
+    function getDetailViewReport($id){
+        $obj_company = new Company();
+        $obj_company->where('id', $id)->get();
+
+        if($obj_company->result_count() == 1){
+            $obj_company->stored->country_name = $obj_company->country->name;
+            $obj_company->stored->state_name = $obj_company->state->name;
+            $obj_company->stored->city_name = $obj_company->city->name;
+            $obj_company->stored->businesscategory_name = $obj_company->businesscategory->name;
+            $obj_company->stored->businesssubcategory_name = $obj_company->businesssubcategory->name;
+
+            $html = $this->load->view('admin/companies/company_detail_view', array('company_detail' => $obj_company->stored), true);
+        } else {
+            $html  = 'No Record Exits';
+        }
+
+        echo $html;
     }
 }

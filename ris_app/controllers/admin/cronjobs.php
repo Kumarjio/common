@@ -180,6 +180,7 @@ class cronjobs extends CI_Controller {
             preg_match_all('#<section class="jrcl "+.*?>(.+?)</section>#is', $scraped_page, $outer_sections);
         }
 
+        $final = array();
         foreach ($outer_sections[1] as $outer_section) {
             $temp = array();
             $temp['businesscategory_id'] = $obj_scrap->businesscategory_id;
@@ -195,6 +196,7 @@ class cronjobs extends CI_Controller {
             $temp['company_name'] = $this->_cleanText($c[0]->plaintext);
 
             preg_match_all('#<div class="trstfctr"+.*?>(.+?)</div>#is', $new_link, $section_4);
+            $temp['estd'] = 0;
             $html_4 = str_get_html($section_4[1][0]);
             $estd = $html_4->find('ul li.estd span.rtngna');
             if (isset($estd[0]->plaintext) && $this->_cleanText($estd[0]->plaintext) != 'N/A') {
@@ -204,16 +206,19 @@ class cronjobs extends CI_Controller {
             preg_match_all('#<section class="moreinfo"+.*?>(.+?)</section>#is', $new_link, $section_2);
             $html_2 = str_get_html($section_2[1][0]);
 
+            $temp['address'] = null;
             $address = $html_2->find('aside p .jaddt');
             if (isset($address[0]) && !empty($address[0]->plaintext)) {
                 $temp['address'] = str_replace(' View Map', '', $this->_cleanText($address[0]->plaintext));
             }
 
+            $temp['mobile'] = null;
             $mobile = $html_2->find('aside .ic_mob');
             if (isset($mobile[0]) && !empty($mobile[0]->parent()->plaintext)) {
                 $temp['mobile'] = $this->_cleanText($mobile[0]->parent()->plaintext);
             }
 
+            $temp['landline'] = null;
             $landline = $html_2->find('aside .ic_phn');
             if (isset($landline[0]) && !empty($landline[0]->parent()->plaintext)) {
                 $temp['landline'] = $this->_cleanText($landline[0]->parent()->plaintext);
@@ -230,6 +235,7 @@ class cronjobs extends CI_Controller {
                 $temp['type'] = 4;
             } 
             else {
+            	$temp['url'] = null;
                 $temp['type'] = 1;
             }
 
@@ -242,15 +248,15 @@ class cronjobs extends CI_Controller {
                 }
             }
             $temp['listedin'] = implode(',', array_values(array_unique(array_filter($also_listed))));
-            $this->_writeJDCSV($temp);
-            /*$this->db->select('*');
-            $this->db->where(array('businesscategory_id' => $temp['businesscategory_id'], 'businesssubcategory_id' => $temp['businesssubcategory_id'], 'company_name' => $this->_cleanText($temp['company_name'])));
-            $this->db->from('companies');
-            $count = $this->db->count_all_results();
-            if ($count == 0) {
-                $this->db->insert('companies', $temp);
-            }*/
+
+            $temp['country_id'] = $obj_scrap->country_id;
+            $temp['state_id'] = $obj_scrap->state_id;
+            $temp['city_id'] = $obj_scrap->city_id;
+            
+            $final[] = $temp;
         }
+        
+        $this->_writeCSV('jd', $final);
     }
 
     private function _scrapUrlDataYellowPages($obj_scrap) {
@@ -419,7 +425,7 @@ class cronjobs extends CI_Controller {
             }
         }
 
-        $this->_writeCSV($final);
+        $this->_writeCSV('yp', $final);
     }
 
     private function _cleanText($text){
@@ -430,8 +436,8 @@ class cronjobs extends CI_Controller {
         return $text;
     }
 
-    private function _writeJDCSV($leads){
-        $handle = fopen("./assets/leads/". date('Y-m-d') ."_jd.csv", "a");
+    private function _writeCSV($type, $leads){
+        $handle = fopen("./assets/leads/". date('Y-m-d') . "_" . $type .".csv", "a");
         foreach ($leads as $lead) {
             fputcsv($handle, $lead);
         }
@@ -439,17 +445,74 @@ class cronjobs extends CI_Controller {
         return true;
     }
 
-    private function _writeCSV($leads){
-        $handle = fopen("./assets/leads/". date('Y-m-d') .".csv", "a");
-        foreach ($leads as $lead) {
-            fputcsv($handle, $lead);
+    function readcsv($type, $date = null){
+        $path = "./assets/leads/". $date . "_" . $type .".csv";
+        if(file_exists($path)){
+            switch ($type) {
+                case 'jd':
+                    $this->_readJDCSV($path);
+                    break;
+                
+                case 'yp':
+                    $this->_readYPCSV($path);
+                    break;
+
+                default:
+                    break;
+            }
+
+            unlink($path);
+        } else {
+            echo 'File not exits';
         }
-        fclose($handle);
-        return true;
     }
 
-    function readcsv($date = null){
-        $path = "./assets/leads/". $date . ".csv";
+    private function _readJDCSV($path){
+        $file = fopen($path, "r");
+
+        while(!feof($file)) {
+            $data = fgetcsv($file);
+            $this->db->select('*');
+            $this->db->where(
+                array_filter(array(
+                    'businesscategory_id' => $data[0],
+                    'businesssubcategory_id' => $data[1],
+                    'company_name' => $this->_cleanText($data[2]),
+                    'address' => $this->_cleanText($data[4]),
+                    'mobile' => $this->_cleanText($data[5]),
+                    'type' => $this->_cleanText($data[8]),
+                    'country_id' => $this->_cleanText($data[10]),
+                    'state_id' => $this->_cleanText($data[11]),
+                    'city_id' => $this->_cleanText($data[12])
+                ))
+            );
+
+            $this->db->from('companies');
+            $count = $this->db->count_all_results();
+            if ($count == 0) {
+                $new = array(
+                    'businesscategory_id' => $data[0],
+                    'businesssubcategory_id' => $data[1],
+                    'company_name' => $this->_cleanText($data[2]),
+                    'estd' => $this->_cleanText($data[3]),
+                    'address' => $this->_cleanText($data[4]),
+                    'mobile' => $this->_cleanText($data[5]),
+                    'landline' => $this->_cleanText($data[6]),
+                    'url' => $this->_cleanText($data[7]),
+                    'type' => $this->_cleanText($data[8]),
+                    'listedin' => $this->_cleanText($data[9]),
+                    'country_id' => $this->_cleanText($data[10]),
+                    'state_id' => $this->_cleanText($data[11]),
+                    'city_id' => $this->_cleanText($data[12])
+                );
+                $this->db->insert('companies', $new);
+            }
+        }
+        
+        fclose($file);
+    }
+
+    private function _readYPCSV($path){
         $file = fopen($path, "r");
 
         while(!feof($file)) {

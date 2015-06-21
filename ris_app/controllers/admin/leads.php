@@ -88,6 +88,5 @@ class leads extends CI_Controller
         }
 
         echo $html;
-
     }
 }

@@ -2,9 +2,33 @@
     jQuery(document).ready(function() {
         loaDatatable();
 
-        jQuery('.filter_chage').change(function(){
+        jQuery('.filter_change').change(function(){
             loaDatatable();            
-        });        
+        });
+
+        $('#mainpanel').delegate('.detailReport', 'click', function(e){
+            e.preventDefault();
+            $this = $(this);
+            table = jQuery('#list_data').DataTable();
+            jQuery.ajax({
+                url: $this.attr('data-url'),
+                success: function(data) {
+                    var tr = $this.closest('tr');
+                    var row = table.row(tr);
+                    if (row.child.isShown()) {
+                        $this.find('i.detail-icon').removeClass('fa-minus-circle');
+                        $this.find('i.detail-icon').addClass('fa-plus-circle');
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    } else {
+                        $this.find('i.detail-icon').addClass('fa-minus-circle');
+                        $this.find('i.detail-icon').removeClass('fa-plus-circle');
+                        row.child(data).show();
+                        tr.addClass('shown');
+                    }
+                } 
+            });
+        });
     });
 
     function loaDatatable(){
@@ -74,7 +98,7 @@
 <br />
 <div class="row">
     <div class="col-md-4">
-        <select id="site_type" class="form-control filter_chage">
+        <select id="site_type" class="form-control filter_change">
             <option value="0">All Site Type</option>
             <?php foreach ($company_types as $key => $value) { ?>
                 <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -82,7 +106,7 @@
         </select>
     </div>
     <div class="col-md-4">
-        <select id="categories" class="form-control filter_chage">
+        <select id="categories" class="form-control filter_change">
             <option value="0">All Bussiness Category</option>
             <?php foreach ($categories as $category) { ?>
                 <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
@@ -90,7 +114,7 @@
         </select>
     </div>
     <div class="col-md-4">
-        <select id="sub_categories" class="form-control filter_chage">
+        <select id="sub_categories" class="form-control filter_change">
             <option value="0">All Bussiness Sub Category</option>
             <?php foreach ($sub_categories as $sub_category) { ?>
                 <option value="<?php echo $sub_category->id; ?>"><?php echo $sub_category->name; ?></option>
@@ -99,7 +123,7 @@
     </div>
 </div>
 <br />
-<div class="box-body table-responsive">
+<div id="mainpanel" class="box-body table-responsive">
     <table class="table table-bordered table-hover" id="list_data">
         <thead>
             <tr align="left">

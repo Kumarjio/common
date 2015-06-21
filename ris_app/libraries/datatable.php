@@ -13,16 +13,18 @@ class Datatable extends CI_Controller
     var $myWhere;
     var $groupBy;
     var $sOrder;
+    var $ci;
     
     public function __construct() {
         parent::__construct();
+        $this->ci = get_instance();
     }
     
     public function datatable_process() {
         
         $sLimit = "";
         if (isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1') {
-            $sLimit = "LIMIT " . mysql_real_escape_string($_GET['iDisplayStart']) . ", " . mysql_real_escape_string($_GET['iDisplayLength']);
+            $sLimit = "LIMIT " . mysqli_real_escape_string($this->ci->db->conn_id, $_GET['iDisplayStart']) . ", " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['iDisplayLength']);
         }
         
         $sOrder = "";
@@ -32,8 +34,8 @@ class Datatable extends CI_Controller
                 if ($_GET['bSortable_' . intval($_GET['iSortCol_' . $i]) ] == "true") {
                     if (stripos($this->aColumns[intval($_GET['iSortCol_' . $i]) ], "AS") > 0) {
                         $fiel_explode = explode(" AS ", $this->aColumns[intval($_GET['iSortCol_' . $i]) ]);
-                        $sOrder.= $fiel_explode[0] . " " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
-                    } else $sOrder.= $this->aColumns[intval($_GET['iSortCol_' . $i]) ] . " " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
+                        $sOrder.= $fiel_explode[0] . " " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSortDir_' . $i]) . ", ";
+                    } else $sOrder.= $this->aColumns[intval($_GET['iSortCol_' . $i]) ] . " " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSortDir_' . $i]) . ", ";
                 }
             }
             $sOrder = substr_replace($sOrder, "", -2);
@@ -54,9 +56,9 @@ class Datatable extends CI_Controller
                     if ($_GET['bSearchable_' . $i] == "true") {
                         if (stripos($this->aColumns[$i], "AS") > 0) {
                             $fiel_explode = explode(" AS ", $this->aColumns[$i]);
-                            $sWhere.= $fiel_explode[0] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch']) . "%' OR ";
+                            $sWhere.= $fiel_explode[0] . " LIKE '%" . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSearch']) . "%' OR ";
                         } else {
-                            $sWhere.= $this->aColumns[$i] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch']) . "%' OR ";
+                            $sWhere.= $this->aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSearch']) . "%' OR ";
                         }
                     }
                 }
@@ -105,7 +107,7 @@ class Datatable extends CI_Controller
     public function datatable_process_join() {
         $sLimit = "";
         if (isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1') {
-            $sLimit = "LIMIT " . mysql_real_escape_string($_GET['iDisplayStart']) . ", " . mysql_real_escape_string($_GET['iDisplayLength']);
+            $sLimit = "LIMIT " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['iDisplayStart']) . ", " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['iDisplayLength']);
         }
         if (isset($_GET['iSortCol_0'])) {
             $sOrder = "ORDER BY  ";
@@ -113,15 +115,15 @@ class Datatable extends CI_Controller
                 if ($_GET['bSortable_' . intval($_GET['iSortCol_' . $i]) ] == "true") {
                     
                     //                    $sOrder .= $this->aColumns[intval($_GET['iSortCol_' . $i])] . "
-                    //                  " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
+                    //                  " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSortDir_' . $i]) . ", ";
                     $pos = stripos($this->aColumns[intval($_GET['iSortCol_' . $i]) ], "as");
                     if ($pos > 0) {
                         $column_name = explode(" ", $this->aColumns[intval($_GET['iSortCol_' . $i]) ]);
                         $sOrder.= $column_name[0] . "
-                " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
+                " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSortDir_' . $i]) . ", ";
                     } else {
                         $sOrder.= $this->aColumns[intval($_GET['iSortCol_' . $i]) ] . "
-                " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
+                " . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSortDir_' . $i]) . ", ";
                     }
                 }
             }
@@ -138,7 +140,7 @@ class Datatable extends CI_Controller
                 
                 /* if($_GET['bSearchable_' . $i] == "true")
                  { */
-                $sWhere.= $this->aColumns[$i] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch']) . "%' OR ";
+                $sWhere.= $this->aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($this->ci->db->conn_id,$_GET['sSearch']) . "%' OR ";
                 
                 /* } */
             }

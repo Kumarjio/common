@@ -4,7 +4,7 @@ class City extends DataMapper
     
     public $table = 'cities';
     public $has_one = array('state');
-    public $has_many = array('lead');
+    public $has_many = array('lead', 'company');
     
     // Optionally, don't include a constructor if you don't need one.
     function __construct($id = NULL) {
