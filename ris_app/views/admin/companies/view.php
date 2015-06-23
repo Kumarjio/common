@@ -2,8 +2,55 @@
     jQuery(document).ready(function() {
         loaDatatable();
 
-        jQuery('.filter_change').change(function(){
-            loaDatatable();            
+        jQuery('#site_type').change(function(){
+            loaDatatable();
+        });
+
+        jQuery('#businesscategory_id').change(function(){
+            jQuery.ajax({
+                type: 'GET',
+                url: '<?php echo ADMIN_URL ."get_sub_cat_bussiness/"; ?>' + $('#businesscategory_id').val(),
+                success: function(data){
+                    jQuery('#businesssubcategory_id').empty();
+                    jQuery('#businesssubcategory_id').append(data);
+                    jQuery("#businesssubcategory_id").trigger("chosen:updated");
+                    loaDatatable();
+                }
+            });
+        });
+
+        jQuery('#businesssubcategory_id').change(function(){
+            loaDatatable();
+        });
+
+        jQuery('#country_id').change(function(){
+            jQuery.ajax({
+                type: 'GET',
+                url: '<?php echo ADMIN_URL ."get_state/"; ?>' + $('#country_id').val(),
+                success: function(data){
+                    jQuery('#state_id').empty();
+                    jQuery('#state_id').append(data);
+                    jQuery("#state_id").trigger("chosen:updated");
+                    loaDatatable();
+                }
+            });
+        });
+
+        jQuery('#state_id').change(function(){
+            jQuery.ajax({
+                type: 'GET',
+                url: '<?php echo ADMIN_URL ."get_city/"; ?>' + $('#state_id').val(),
+                success: function(data){
+                    jQuery('#city_id').empty();
+                    jQuery('#city_id').append(data);
+                    jQuery("#city_id").trigger("chosen:updated");
+                    loaDatatable();
+                }
+            });
+        });
+
+        jQuery('#city_id').change(function(){
+            loaDatatable();
         });
 
         $('#mainpanel').delegate('.detailReport', 'click', function(e){
@@ -45,7 +92,7 @@
                 {"sClass": ""},{"sClass": ""},
                 {"bSortable": false, "sClass": "text-center"}
             ],
-            "sAjaxSource": "<?php echo ADMIN_URL . 'company/getjson/'; ?>" + jQuery('#site_type').val() + '/' + jQuery('#categories').val() + '/' + jQuery('#sub_categories').val(),
+            "sAjaxSource": "<?php echo ADMIN_URL . 'company/getjson?type='; ?>" + jQuery('#site_type').val() + '&cat_id=' + jQuery('#businesscategory_id').val() + '&sub_cat_id=' + jQuery('#businesssubcategory_id').val() + '&country_id=' + jQuery('#country_id').val() + '&state_id=' + jQuery('#state_id').val() + '&city_id=' + jQuery('#city_id').val(),
         });
     }
 
@@ -97,29 +144,59 @@
 </div>
 <br />
 <div class="row">
-    <div class="col-md-4">
-        <select id="site_type" class="form-control filter_change">
-            <option value="0">All Site Type</option>
-            <?php foreach ($company_types as $key => $value) { ?>
-                <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-            <?php } ?>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <select id="categories" class="form-control filter_change">
-            <option value="0">All Bussiness Category</option>
-            <?php foreach ($categories as $category) { ?>
-                <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
-            <?php } ?>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <select id="sub_categories" class="form-control filter_change">
-            <option value="0">All Bussiness Sub Category</option>
-            <?php foreach ($sub_categories as $sub_category) { ?>
-                <option value="<?php echo $sub_category->id; ?>"><?php echo $sub_category->name; ?></option>
-            <?php } ?>
-        </select>
+    <div class="col-md-12">
+        <h4>Filters</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <select id="site_type" class="form-control filter_change">
+                    <option value="0">All Site Type</option>
+                    <?php foreach ($company_types as $key => $value) { ?>
+                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="businesscategory_id" class="form-control">
+                    <option value="0">All Bussiness Category</option>
+                    <?php foreach ($categories as $category) { ?>
+                        <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="businesssubcategory_id" class="form-control filter_change">
+                    <option value="0">All Bussiness Sub Category</option>
+                    <?php foreach ($sub_categories as $sub_category) { ?>
+                        <option value="<?php echo $sub_category->id; ?>"><?php echo $sub_category->name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <select id="country_id" class="form-control chosen-select">
+                    <option value="0">All Country</option>
+                    <?php foreach ($countries as $country) { ?>
+                        <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <select id="state_id" class="form-control chosen-select">
+                    <option value="0">All Sates</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <select id="city_id" class="form-control chosen-select">
+                    <option value="0">All City</option>
+                </select>
+            </div>
+        </div>
+        <hr />
     </div>
 </div>
 <br />

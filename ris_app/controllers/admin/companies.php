@@ -22,6 +22,10 @@ class companies extends CI_Controller
 
         $obj_cat = new Businesssubcategory();
         $data['sub_categories'] = $obj_cat->get();
+
+        $obj_country = new Country();
+        $obj_country->order_by('name', 'ASC');
+        $data['countries'] = $obj_country->get();
         
         $this->layout->view('admin/companies/view', $data);
     }
@@ -110,20 +114,31 @@ class companies extends CI_Controller
         echo json_encode($data);
     }
     
-    public function getJsonData($type = 0, $cat_id = 0, $sub_cat = 0) {
+    public function getJsonData() {
         $where = '';
-
-
-        if($type != 0){
-            $where .= ' AND type = ' . $type;
+        
+        if($this->input->get('type') != 0 && $this->input->get('type') != ''){
+            $where .= ' AND companies.type = ' . $this->input->get('type');
         }
 
-        if($cat_id != 0){
-            $where .= ' AND companies.businesscategory_id = ' . $cat_id;
+        if($this->input->get('cat_id') != 0 && $this->input->get('cat_id') != ''){
+            $where .= ' AND companies.businesscategory_id = ' . $this->input->get('cat_id');
         }
 
-        if($sub_cat != 0){
-            $where .= ' AND companies.businesssubcategory_id = ' . $sub_cat;
+        if($this->input->get('sub_cat_id') != 0 && $this->input->get('sub_cat_id') != ''){
+            $where .= ' AND companies.businesssubcategory_id = ' . $this->input->get('sub_cat_id');
+        }
+
+        if($this->input->get('country_id') != 0 && $this->input->get('country_id') != ''){
+            $where .= ' AND companies.country_id = ' . $this->input->get('country_id');
+        }
+
+        if($this->input->get('state_id') != 0 && $this->input->get('state_id') != ''){
+            $where .= ' AND companies.state_id = ' . $this->input->get('state_id');
+        }
+
+        if($this->input->get('city_id') != 0 && $this->input->get('city_id') != ''){
+            $where .= ' AND companies.city_id = ' . $this->input->get('city_id');
         }
 
         $this->load->library('datatable');
