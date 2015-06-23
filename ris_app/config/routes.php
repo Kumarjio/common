@@ -86,7 +86,7 @@ $route['admin/logout'] = "admin/authenticate/logout";
 $route['admin/forgot_password'] = "admin/authenticate/userForgotPassword";
 $route['admin/send_reset_password_link'] = "admin/authenticate/userSendResetPasswordLink";
 $route['admin/reset_password/(:any)'] = "admin/authenticate/userResetPassword/$1";
-$route['admin/denied'] = "admin/authenticate/noPermission";
+$route['admin/denied'] = "admin/authenticate/permissionDenied";
 
 //Dashboard
 $route['admin/get_dashboard_count'] = 'admin/ajax/getDashboardTotalCountData';

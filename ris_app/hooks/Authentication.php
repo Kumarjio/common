@@ -21,11 +21,13 @@ class Authentication extends CI_Controller {
     function checkLogin() {
         $array = array('authenticate', 'cronjobs');
         $path = explode('/', $_SERVER['REQUEST_URI']);
+        
         if ($_SERVER['SERVER_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_ADDR'] == '192.168.1.29') {
             $path_admin = $path[2];
         } else {
             $path_admin = $path[2];
         }
+
         if ($path_admin == 'admin' && !in_array($this->router->class, $array)) {
             $session = $this->session->userdata('admin_session');
             if (empty($session)) {
@@ -40,17 +42,18 @@ class Authentication extends CI_Controller {
     private function setAllowedController() {
         $this->allowed_controller = array(
             'authenticate',
-            'cronjobs'
+            'cronjobs',
+            'dashboard',
+            'ajax'
         );
     }
 
     private function setAllowedMethod() {
-        $this->allowed_for_all = array();
+        $this->allowed_for_all = array('getJsonData');
     }
 
     function checkPermission() {
-        if ($this->router->fetch_directory() == "" &&
-                !in_array($this->router->class, $this->allowed_controller) &&
+        if (!in_array($this->router->class, $this->allowed_controller) &&
                 !in_array($this->router->method, $this->allowed_for_all)) {
 
             $session = $this->session->userdata('admin_session');
@@ -72,7 +75,7 @@ class Authentication extends CI_Controller {
         if (isset($session) && !empty($session)) {
             $user = new User();
             $permissions = $user->userRoleByID($session->id, $session->role);
-            $this->config->set_item('user_premission', $permissions);
+            $this->config->set_item('admin_premission', $permissions);
         }
     }
 

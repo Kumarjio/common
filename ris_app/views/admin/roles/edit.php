@@ -2,11 +2,7 @@
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
 <script type="text/javascript" src="<?php echo PLUGIN_URL; ?>tree/js/jquery.tree.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo PLUGIN_URL; ?>tree/css/jquery.tree.css"/>
-<style>
-    .ui-widget-content {
-        border: 0px solid #aaaaaa;
-    }
-</style>
+
 <script>
     //<![CDATA[
     $(document).ready(function() {
@@ -26,7 +22,7 @@
             },
             messages: {
                 en_role_name: {
-                    remote: '* <?php echo $this->lang->line("role_exits"); ?>'
+                    remote: '* Role Name already exits.'
                 }
             },
             errorPlacement: function(error, element) {
@@ -43,48 +39,59 @@
             dnd : false
         });
         
+        $('#permission_tree-checkAll').click(function(){
+            $('#permission_tree div').tree('checkAll');
+        });
+
+        $('#permission_tree-uncheckAll').click(function(){
+            $('#permission_tree div').tree('uncheckAll');
+        });
     });
     //]]>
 </script>
-<h1 class="page-heading"><?php echo $this->lang->line('edit'), ' ', $this->lang->line('role'); ?></h1>
-<div class="the-box">
 
-    <form id="add" method="post" class="form-horizontal" action="<?php echo base_url() . 'role/edit/' . $role->id; ?>">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h1>Manage Roles</h1>
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-lg-12">
+    <form id="add" method="post" class="form-horizontal" action="<?php echo ADMIN_URL . 'role/edit/' . $role->id; ?>">
         <div class="form-group">
-            <label class="col-lg-2 control-label">Role <span class="text-danger">*</span></label>
-            <div class="col-lg-9">
-                <input type="text" class="form-control" name="role_name" palceholder="Role Name"/>
+            <label class="col-lg-2 control-label">Role Name<span class="text-danger">&nbsp;</span></label>
+            <div class="col-lg-4">
+                <input type="text" name="name" class="form-control required" value="<?php echo $role->name; ?>"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="question" class="col-lg-2 control-label">
-                Permissions
+                Permission
                 <span class="text-danger">&nbsp;</span>
             </label>
-            <div class="col-lg-9">
+            <div class="col-lg-10">
                 <div id="permission_tree">
-                    <ul class="permission-tree-ul">
-                        <?php echo loopPermissionArray(createPermissionArray(), unserialize($role->permission)); ?>
-                    </ul>
+                    <div>
+                        <ul>
+                            <?php echo loopPermissionArray(createPermissionArray(), unserialize($role->permission)); ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-lg-3 control-label">&nbsp;</label>
-            <div class="col-lg-5">
+            <label class="col-lg-2 control-label">&nbsp;</label>
+            <div class="col-lg-4">
                 <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-original-title="Update">Update</button>
-                <a href="<?php echo ADMIN_URL. 'role' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
+                <a href="<?php echo ADMIN_URL . 'role' ?>" class="btn btn-default" data-toggle="tooltip" data-original-title="Cancel">Cancel</a>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-lg-3 control-label">&nbsp;</label>
-            <div class="col-lg-5">
-                <?php echo $this->lang->line('compulsory_note'); ?>
-            </div>
-        </div>
     </form>
+</div>
 </div>

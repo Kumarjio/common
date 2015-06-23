@@ -15,12 +15,6 @@
 
 </script>
 
-<div class="row">
-    <div class="col-md-12 text-right">
-        <a href="<?php echo ADMIN_URL . 'role/add'; ?>" class="btn btn-success"> Add Role</a>
-    </div>
-</div>
-<br />
 <div id="mainpanel" class="box-body table-responsive">
     <table class="table table-bordered table-hover" id="list_data">
         <thead class="the-box dark full">

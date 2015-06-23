@@ -30,7 +30,7 @@ class roles extends CI_Controller
             $role->update_date_time = get_current_date_time()->get_date_time_for_db();
             $role->save();
             $this->session->set_flashdata('success', $this->lang->line('add_data_success'));
-            redirect(base_url() . 'role', 'refresh');
+            redirect(ADMIN_URL . 'role', 'refresh');
         } else {
             $this->layout->setField('page_title', 'Add Role');
 
@@ -43,26 +43,13 @@ class roles extends CI_Controller
             if ($this->input->post() !== false) {
                 $role = new Role();
                 $role->where('id', $id)->get();
-                foreach ($this->config->item('custom_languages') as $key => $value) {
-                    $temp = $key . '_role_name';
-                    if ($this->input->post($temp) != '') {
-                        $role->$temp = $this->input->post($temp);
-                    } else {
-                        $role->$temp = $this->input->post('en_role_name');
-                    }
-                }
-                
-                if ($this->input->post('is_manager') == '1') {
-                    $role->is_manager = 1;
-                } else {
-                    $role->is_manager = 0;
-                }
-                
+                $role->name = $this->input->post('name');
                 $role->permission = serialize($this->input->post('perm'));
-                $role->user_id = $this->session_data->id;
+                $role->updated_id = $this->session_data->id;
+                $role->update_datetime = get_current_date_time()->get_date_time_for_db();
                 $role->save();
-                $this->session->set_flashdata('success', $this->lang->line('edit_data_success'));
-                redirect(base_url() . 'role', 'refresh');
+                $this->session->set_flashdata('success', 'Update Data Successfully');
+                redirect(ADMIN_URL . 'role', 'refresh');
             } else {
                 $this->layout->setField('page_title', 'Edit Role');
                 
@@ -75,7 +62,7 @@ class roles extends CI_Controller
             }
         } else {
             $this->session->set_flashdata('error', $this->lang->line('edit_data_error'));
-            redirect(base_url() . 'role', 'refresh');
+            redirect(ADMIN_URL . 'role', 'refresh');
         }
     }
     
@@ -85,10 +72,10 @@ class roles extends CI_Controller
             $role->where('id', $id)->get();
             $role->delete();
             $this->session->set_flashdata('success', $this->lang->line('delete_data_success'));
-            redirect(base_url() . 'role', 'refresh');
+            redirect(ADMIN_URL . 'role', 'refresh');
         } else {
             $this->session->set_flashdata('error', $this->lang->line('delete_data_error'));
-            redirect(base_url() . 'role', 'refresh');
+            redirect(ADMIN_URL . 'role', 'refresh');
         }
     }
 
@@ -98,13 +85,14 @@ class roles extends CI_Controller
         $this->datatable->eColumns = array('id');
         $this->datatable->sIndexColumn = 'id';
         $this->datatable->sTable = 'roles';
+        $this->datatable->myWhere = ' WHERE id > 1';
         $this->datatable->datatable_process();
         
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
 
             $temp_arr[] =  $aRow['name'];
-            $temp_arr[] = '<a href="' . ADMIN_URL . 'role/edit/' . $aRow['id'] . '" class="actions" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fa fa-pencil icon-circle icon-xs icon-primary text-center"></i></a>&nbsp;<a href="javascript:;" onclick="deletedata(this)" class="text-danger" id="'. $aRow['id'] .'" data-toggle="tooltip" data-original-title="Delete" title="Delete"><i class="fa fa-times icon-circle icon-xs icon-danger text-center"></i></a>';
+            $temp_arr[] = '<a href="' . ADMIN_URL . 'role/edit/' . $aRow['id'] . '" class="actions" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fa fa-pencil icon-circle icon-xs icon-primary text-center"></i></a>';
             
             
             $this->datatable->output['aaData'][] = $temp_arr;

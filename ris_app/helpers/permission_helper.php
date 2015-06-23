@@ -6,7 +6,7 @@ if (!function_exists('hasPermission')) {
         if ($data->role == 1) {
             return TRUE;
         } else {
-            $permissions= get_instance()->config->item('admin_session');
+            $permissions= get_instance()->config->item('admin_premission');
             if (is_array($permissions) && array_key_exists($controller, $permissions) && in_array($method, $permissions[$controller])) {
                 return TRUE;
             } else {
@@ -59,14 +59,15 @@ if (!function_exists('printPermission')) {
                     }
                 }
 
+                $class = 'class="simple"';
                 if($type == 'checkbox'){
-                    $class = 'class="icheckbox_square-grey"';
+                    //$class = 'class="icheckbox_square-grey"';
                 } else {
-                    $class = 'class="iradio_square-grey"';
+                    //$class = 'class="iradio_square-grey"';
                 }
 
 
-                return '<li><input type="' . $type . '" value="' . $key . '"' . $name . $str . $class . '/><span>&nbsp;' . $v . '</span>';
+                return '<li><input type="' . $type . '" value="' . $key . '"' . $name . $str . @$class . '/><span>&nbsp;' . $v . '</span>';
             } else {
                 break;
             }
@@ -92,11 +93,38 @@ if (!function_exists('loopPermissionArray')) {
 if (!function_exists('createPermissionArray')) {
     function createPermissionArray() {
         $CI =& get_instance();
-        $permission = array(
+        $CI->load->library('controllerlist');
+        
+        $controllers = $CI->controllerlist->getControllers();
+        
+        $permission = array();        
+        foreach ($controllers as $key => $controller) {
+            $temp = array();
+
+            $temp['name'] = ucfirst(singular($key));
+
+            foreach ($controller as $method) {
+                $temp['hasChild'][$method] = array('name' => ucfirst(str_replace($temp['name'], '', $method)));
+            }
+            
+            $permission[$key] = $temp;
+        }
+
+
+        /*$permission = array(
             'roles' => array(
                 'name' => 'Roles',
                 'hasChild' => array(
                     'viewRole' => array('name' => 'List'),
+                    'addRole' => array('name' => 'Add'),
+                    'editRole' => array('name' => 'Edit'),
+                    'deleteRole' => array('name' => 'Delete'),
+                )
+            ),
+            'companies' => array(
+                'name' => 'Company',
+                'hasChild' => array(
+                    'viewCompany' => array('name' => 'List'),
                     'addRole' => array('name' => 'Add'),
                     'editRole' => array('name' => 'Edit'),
                     'deleteRole' => array('name' => 'Delete'),
@@ -108,7 +136,8 @@ if (!function_exists('createPermissionArray')) {
                     'viewSystemSetting' => array('name' => 'Edit')
                 )
             )
-        );
+        );*/
+
         return $permission;
     }
 }

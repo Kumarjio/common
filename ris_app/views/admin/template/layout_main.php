@@ -101,65 +101,109 @@
                 <section class="sidebar">
                     <ul class="sidebar-menu">
                         <li class="<?php echo ($uri_1 == 'dashboard') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a> </li>
-                        <li class="<?php echo ($uri_1 == 'company') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'company'; ?>"><i class="fa fa-users"></i>Company</a></li>
-                        <li class="<?php echo ($uri_1 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
-                        <li class="<?php echo ($uri_1 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
-                        <li class="<?php echo ($uri_1 == 'balancesheet') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'balancesheet'; ?>"><i class="fa fa-money"></i>Expense</a></li>
-                        <li class="<?php echo ($uri_1 == 'role') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'role'; ?>"><i class="fa fa-list-alt"></i>Roles</a></li>
-                        <li class="<?php echo ($uri_1 == 'lead') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'lead'; ?>"><i class="fa fa-list-alt"></i>Lead</a></li>
-                        <li class="treeview <?php echo ($uri_1 == 'businesscategory' || $uri_1 == 'businesssubcategory') ? 'active' : ''; ?>">
-                            <a href="#">
-                                <i class="fa fa-gears"></i> <span>Business</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                 <li class="<?php echo ($uri_1 == 'businesscategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesscategory'; ?>"><i class="fa fa-cog"></i>Category</a></li>
+                        
+                        <?php if (hasPermission('companies', 'viewCompany')) { ?>
+                            <li class="<?php echo ($uri_1 == 'company') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'company'; ?>"><i class="fa fa-users"></i>Company</a></li>
+                        <?php } ?>
+                        
+                        <?php if (hasPermission('newsletters', 'viewNewsletter')) { ?>
+                            <li class="<?php echo ($uri_1 == 'newsletter') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newsletter'; ?>"><i class="fa fa-newspaper-o"></i>Campaign</a></li>
+                        <?php } ?>
 
-                                <li class="<?php echo ($uri_1 == 'businesssubcategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesssubcategory'; ?>"><i class="fa fa-cog"></i>Sub Category</a></li>
-                            </ul>
+                        <?php if (hasPermission('scraps', 'viewScrap')) { ?>
+                            <li class="<?php echo ($uri_1 == 'scrap') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'scrap'; ?>"><i class="fa fa-table"></i>Scrap</a></li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('balancesheets', 'viewBalancesheet')) { ?>
+                            <li class="<?php echo ($uri_1 == 'balancesheet') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'balancesheet'; ?>"><i class="fa fa-money"></i>Expense</a></li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('roles', 'viewRole')) { ?>
+                            <li class="<?php echo ($uri_1 == 'role') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'role'; ?>"><i class="fa fa-list-alt"></i>Roles</a></li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('leads', 'viewLead')) { ?>
+                            <li class="<?php echo ($uri_1 == 'lead') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'lead'; ?>"><i class="fa fa-list-alt"></i>Lead</a></li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('businesscategories', 'viewBusinesscategory') || hasPermission('businesssubcategories', 'viewBusinesssubcategory')) { ?>
+                            <li class="treeview <?php echo ($uri_1 == 'businesscategory' || $uri_1 == 'businesssubcategory') ? 'active' : ''; ?>">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i> <span>Business</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <?php if (hasPermission('businesscategories', 'viewBusinesscategory')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'businesscategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesscategory'; ?>"><i class="fa fa-cog"></i>Category</a></li>
+                                    <?php } ?>
+
+                                    <?php if (hasPermission('businesssubcategories', 'viewBusinesssubcategory')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'businesssubcategory') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'businesssubcategory'; ?>"><i class="fa fa-cog"></i>Sub Category</a></li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('batches', 'viewBatch') || hasPermission('students', 'viewStudent')  || hasPermission('students', 'viewStudentFees')) { ?>
+                            <li class="treeview <?php echo ($uri_1 == 'batch' || $uri_1 == 'student') ? 'active' : ''; ?>">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i> <span>Tranning Center</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <?php if (hasPermission('batches', 'viewBatch')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'batch') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'batch'; ?>"><i class="fa fa-cog"></i>Batch</a></li>
+                                    <?php } ?>
+
+                                    <?php if (hasPermission('students', 'viewStudent')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student'; ?>"><i class="fa fa-cog"></i>Student</a></li>
+                                    <?php } ?>
+
+                                    <?php if (hasPermission('students', 'viewStudentFees')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'fee') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student/fee'; ?>"><i class="fa fa-cog"></i>Student Fee</a></li>
+                                    <?php } ?>            
+                                </ul>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('pages', 'viewPage') || hasPermission('emails', 'viewEmail') || hasPermission('newslettertemplates', 'viewNewslettertemplate')) { ?>
+                            <li class="treeview <?php echo ($uri_1 == 'page' || $uri_1 == 'email' || $uri_1 == 'newslettertemplate') ? 'active' : ''; ?>">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i> <span>Templates</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <?php if (hasPermission('pages', 'viewPage')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'page') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'page'; ?>"><i class="fa fa-file-text"></i>Page</a></li>
+                                    <?php } ?>
+
+                                    <?php if (hasPermission('emails', 'viewEmail')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'email') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'email'; ?>"><i class="fa fa-envelope"></i>Email</a></li>
+                                    <?php } ?>
+
+                                    <?php if (hasPermission('newslettertemplates', 'viewNewslettertemplate')) { ?>
+                                        <li class="<?php echo ($uri_1 == 'newslettertemplate') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newslettertemplate'; ?>"><i class="fa fa-envelope"></i>Newsletter</a></li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                        <?php } ?>
+
+                        <?php if (hasPermission('systemsettings', 'viewSystemSetting')) { ?>
+                            <li class="treeview <?php echo ($uri_1 == 'system_setting' && ($uri_2 == 'general' || $uri_2 == 'mail')) ? 'active' : ''; ?>">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i> <span>Settings</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="<?php echo ($uri_2 == 'general') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL .'system_setting/general'; ?>"><i class="fa fa-wrench"></i> General Setting</a></li>
+                                    <li class="<?php echo ($uri_2 == 'mail') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL .'system_setting/mail'; ?>"><i class="fa fa-wrench"></i> Mail Setting</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+
+                        <li class="<?php echo ($uri_1 == 'system_setting' && $uri_2 == 'login_credential') ? 'active selected' : ''; ?>">
+                            <a href="<?php echo ADMIN_URL . 'system_setting/login_credential'; ?>"><i class="fa fa-gears"></i>Edit Profile</a>
                         </li>
-
-                        <li class="treeview <?php echo ($uri_1 == 'batch' || $uri_1 == 'student') ? 'active' : ''; ?>">
-                            <a href="#">
-                                <i class="fa fa-gears"></i> <span>Tranning Center</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                 <li class="<?php echo ($uri_1 == 'batch') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'batch'; ?>"><i class="fa fa-cog"></i>Batch</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'student') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student'; ?>"><i class="fa fa-cog"></i>Student</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'student' && $uri_2 == 'fee') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'student/fee'; ?>"><i class="fa fa-cog"></i>Student Fee</a></li>
-                            </ul>
-                        </li>
-
-                    
-                        <li class="treeview <?php echo ($uri_1 == 'page' || $uri_1 == 'email' || $uri_1 == 'newslettertemplate') ? 'active' : ''; ?>">
-                            <a href="#">
-                                <i class="fa fa-gears"></i> <span>Templates</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li class="<?php echo ($uri_1 == 'page') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'page'; ?>"><i class="fa fa-file-text"></i>Page</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'email') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'email'; ?>"><i class="fa fa-envelope"></i>Email</a></li>
-
-                                <li class="<?php echo ($uri_1 == 'newslettertemplate') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'newslettertemplate'; ?>"><i class="fa fa-envelope"></i>Newsletter</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="treeview <?php echo ($uri_1 == 'system_setting' && ($uri_2 == 'general' || $uri_2 == 'mail')) ? 'active' : ''; ?>">
-                            <a href="#">
-                                <i class="fa fa-gears"></i> <span>Settings</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li class="<?php echo ($uri_2 == 'general') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL .'system_setting/general'; ?>"><i class="fa fa-wrench"></i> General Setting</a></li>
-                                <li class="<?php echo ($uri_2 == 'mail') ? 'active' : ''; ?>"><a href="<?php echo ADMIN_URL .'system_setting/mail'; ?>"><i class="fa fa-wrench"></i> Mail Setting</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="<?php echo ($uri_1 == 'system_setting' && $uri_2 == 'login_credential') ? 'active selected' : ''; ?>"><a href="<?php echo ADMIN_URL . 'system_setting/login_credential'; ?>"><i class="fa fa-gears"></i>Edit Profile</a></li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -221,7 +265,7 @@
                 <?php } ?>
 
                 <section class="content">
-                     <?php echo @$content_for_layout; ?>
+                    <?php echo @$content_for_layout; ?>
                 </section>
             </aside>
         </div>

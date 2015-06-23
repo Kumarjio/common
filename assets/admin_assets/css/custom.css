@@ -424,22 +424,36 @@ video {
     background-color: #d9534f;
 }
 
-
-#permission_tree ul li {
-    list-style-type: none;
+.daredevel-tree li span.daredevel-tree-anchor {
+    left: -20px;
 }
 
-.permission-tree-ul li {
-    border-bottom: 1px black dashed;
+.daredevel-tree li span.daredevel-tree-label {
+    margin-left: 20px;
+}
+
+#permission_tree li.expanded {
+    width: 100%;
+    float: left;
+    display: inherit;
+    border-bottom: 2px dashed;
+    margin-bottom: 20px;
+}
+
+#permission_tree li.expanded input[type="checkbox"] {
+    height: 22px;
+    width: 22px;
+}
+
+#permission_tree li.expanded ul {
+    float: left;
+    width: 100%;
+    clear: both;
+    margin-top : 0px;
     margin-bottom: 10px;
-    font-weight: bold;
 }
 
-.permission-tree-ul li ul li{
-    display: inline-block;
-    min-width: 75px;
-    margin-bottom: 0;
-    border-bottom: none;
-    font-weight: normal;
-    line-height: 50px;
+#permission_tree li.leaf {
+    float: left;
+    margin-right: 20px;
 }

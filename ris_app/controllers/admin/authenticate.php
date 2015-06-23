@@ -144,11 +144,11 @@ class authenticate extends CI_Controller
     }
 
     function permissionDenied() {
-        $this->layout->view('authenticate/permission');
+        $this->layout->view('admin/authenticate/permission');
     }
     
     function error_404() {
-        $this->layout->view('authenticate/error_404');
+        $this->layout->view('admin/authenticate/error_404');
     }
 
 }

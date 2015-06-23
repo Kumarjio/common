@@ -86,7 +86,7 @@ $(function() {
     });
 
     /* Sidebar tree view */
-    $(".sidebar .treeview").tree();
+    $(".sidebar .treeview").treeview();
 
     /* 
      * Make sure that the sidebar is streched full height
@@ -571,7 +571,7 @@ $(window).load(function() {
 (function($) {
     "use strict";
 
-    $.fn.tree = function() {
+    $.fn.treeview = function() {
 
         return this.each(function() {
             var btn = $(this).children("a").first();

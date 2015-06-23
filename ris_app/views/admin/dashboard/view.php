@@ -33,58 +33,70 @@
 </script>
 
 <div class="row">
-    <div class="col-lg-4 col-xs-12">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3 id="total_urls"></h3>
-                <p>Scrap Urls</p>
+    <?php if (hasPermission('scraps', 'viewScrap')) { ?>
+        <div class="col-lg-4 col-xs-12">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="total_urls"></h3>
+                    <p>Scrap Urls</p>
+                </div>
+                <div class="icon"><i class="ion ion-clipboard"></i></div>
+                <span class="small-box-footer">&nbsp;</span>
             </div>
-            <div class="icon"><i class="ion ion-clipboard"></i></div>
-            <span class="small-box-footer">&nbsp;</span>
         </div>
-    </div>
-    <div class="col-lg-4 col-xs-12">
-        <div class="small-box bg-purple">
-            <div class="inner">
-                <h3 id="total_leads"></h3>
-                <p>Leads</p>
+    <?php } ?>
+    
+    <?php if (hasPermission('leads', 'viewLead')) { ?>
+        <div class="col-lg-4 col-xs-12">
+            <div class="small-box bg-purple">
+                <div class="inner">
+                    <h3 id="total_leads"></h3>
+                    <p>Leads</p>
+                </div>
+                <div class="icon"><i class="ion ion-android-friends"></i></div>
+                <span class="text-right small-box-footer"><a href="#" class=""> View All</a></span>
             </div>
-            <div class="icon"><i class="ion ion-android-friends"></i></div>
-            <span class="text-right small-box-footer"><a href="#" class=""> View All</a></span>
         </div>
-    </div>
+    <?php } ?>
 
-    <div class="col-lg-4 col-xs-12">
-        <div class="small-box bg-red">
-            <div class="inner">
-                <h3 id="total_compaines"></h3>
-                <p>Companies</p>
+    <?php if (hasPermission('companies', 'viewCompany')) { ?>
+        <div class="col-lg-4 col-xs-12">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="total_compaines"></h3>
+                    <p>Companies</p>
+                </div>
+                <div class="icon"><i class="ion ion-stats-bars"></i></div>
+                <span class="small-box-footer">&nbsp;</span>
             </div>
-            <div class="icon"><i class="ion ion-stats-bars"></i></div>
-            <span class="small-box-footer">&nbsp;</span>
         </div>
-    </div>
+    <?php } ?>
 </div>
 
 <div class="row">
+    <?php if (hasPermission('businesscategories', 'viewBusinesscategory')) { ?>
         <div class="col-lg-4 col-xs-12">
-        <div class="small-box bg-light-blue">
-            <div class="inner">
-                <h3 id="total_bussiness_categories"></h3>
-                <p>Bussiness Caegories</p>
+            <div class="small-box bg-light-blue">
+                <div class="inner">
+                    <h3 id="total_bussiness_categories"></h3>
+                    <p>Bussiness Caegories</p>
+                </div>
+                <div class="icon"><i class="ion ion-android-friends"></i></div>
+                <span class="text-right small-box-footer"><a href="#" class=""> View All</a></span>
             </div>
-            <div class="icon"><i class="ion ion-android-friends"></i></div>
-            <span class="text-right small-box-footer"><a href="#" class=""> View All</a></span>
         </div>
-    </div>
-    <div class="col-lg-4 col-xs-12">
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h3 id="total_bussiness_sub_categories"></h3>
-                <p>Bussiness Sub Caegories</p>
+    <?php } ?>
+
+    <?php if (hasPermission('businesssubcategories', 'viewBusinesssubcategory')) { ?>
+        <div class="col-lg-4 col-xs-12">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="total_bussiness_sub_categories"></h3>
+                    <p>Bussiness Sub Caegories</p>
+                </div>
+                <div class="icon"><i class="ion ion-android-contacts"></i></div>
+                <span class="small-box-footer">&nbsp;</span>
             </div>
-            <div class="icon"><i class="ion ion-android-contacts"></i></div>
-            <span class="small-box-footer">&nbsp;</span>
         </div>
-    </div>
+    <?php } ?>
 </div>
